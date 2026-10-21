@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { RotateCcw, Play, Pause, ZoomIn, ZoomOut, Compass, Sparkles, ShieldCheck } from 'lucide-react';
+import { RotateCcw, ZoomIn, ZoomOut, Compass, Sparkles, ShieldCheck } from 'lucide-react';
 import { CornerMarks } from '../common/IndustrialGraphics';
 
 interface HeroSilo3DProps {
@@ -15,11 +15,9 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const modelRef = useRef<THREE.Group | null>(null);
   const animFrameRef = useRef<number | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [loadProgress, setLoadProgress] = useState<number>(0);
-  const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
   const [activePin, setActivePin] = useState<string | null>(null);
 
   const defaultCameraPos = new THREE.Vector3(3.2, 2.0, 5.2);
@@ -65,26 +63,27 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
     controls.maxPolarAngle = Math.PI / 2 + 0.05; // Prevent dipping below base
     controls.target.copy(defaultTarget);
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 1.2;
+    controls.autoRotateSpeed = 1.35; // Continuous smooth rotation
     controlsRef.current = controls;
 
-    // Pause auto-rotation on user drag, resume after 4s idle
+    // Stop rotation when tapped/held; immediately resume moving continuously when released/left
     const handleStart = () => {
       controls.autoRotate = false;
-      setIsAutoRotating(false);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
 
     const handleEnd = () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        controls.autoRotate = true;
-        setIsAutoRotating(true);
-      }, 4000);
+      controls.autoRotate = true;
     };
 
     controls.addEventListener('start', handleStart);
     controls.addEventListener('end', handleEnd);
+
+    // Direct pointer event listeners on canvas for instant tap/touch responsiveness
+    const domEl = renderer.domElement;
+    domEl.addEventListener('pointerdown', handleStart);
+    domEl.addEventListener('pointerup', handleEnd);
+    domEl.addEventListener('pointercancel', handleEnd);
+    domEl.addEventListener('pointerleave', handleEnd);
 
     // 5. LIGHTING SETUP
     // Ambient fill
@@ -248,7 +247,10 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
       window.removeEventListener('resize', handleResize);
       controls.removeEventListener('start', handleStart);
       controls.removeEventListener('end', handleEnd);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      domEl.removeEventListener('pointerdown', handleStart);
+      domEl.removeEventListener('pointerup', handleEnd);
+      domEl.removeEventListener('pointercancel', handleEnd);
+      domEl.removeEventListener('pointerleave', handleEnd);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       renderer.dispose();
       if (container.contains(renderer.domElement)) {
@@ -258,19 +260,11 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
   }, []);
 
   // UI Control Handlers
-  const handleToggleAutoRotate = () => {
-    if (!controlsRef.current) return;
-    const newState = !isAutoRotating;
-    controlsRef.current.autoRotate = newState;
-    setIsAutoRotating(newState);
-  };
-
   const handleResetCamera = () => {
     if (!controlsRef.current || !cameraRef.current) return;
     cameraRef.current.position.copy(defaultCameraPos);
     controlsRef.current.target.copy(defaultTarget);
     controlsRef.current.autoRotate = true;
-    setIsAutoRotating(true);
   };
 
   const handleZoom = (delta: number) => {
@@ -305,7 +299,7 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
           <span>3D CAD VISUALIZATION</span>
         </span>
         <span className="text-[10px] font-mono-tech text-gray-400 hidden sm:inline">
-          // 360° INTERACTIVE INSPECTION
+          // CONTINUOUS 360° ROTATION • TAP TO INSPECT
         </span>
       </div>
 
@@ -313,7 +307,7 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
       <div 
         ref={containerRef} 
         className="w-full h-full cursor-grab active:cursor-grabbing touch-none relative z-10"
-        title="Click and drag to rotate the grain silo in 3D"
+        title="Tap & hold to stop and inspect • Drag to rotate in 3D"
       />
 
       {/* Loading Overlay */}
@@ -337,20 +331,6 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
 
       {/* Interactive Controls Pill (Bottom Right) */}
       <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1.5 bg-brand-black/85 border border-white/20 p-1.5 backdrop-blur-md shadow-premium">
-        
-        {/* Toggle Auto-Rotate */}
-        <button
-          onClick={handleToggleAutoRotate}
-          title={isAutoRotating ? 'Pause Auto-Rotation' : 'Resume Auto-Rotation'}
-          className={`p-2 transition-colors ${
-            isAutoRotating 
-              ? 'bg-brand-yellow text-brand-black' 
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
-          }`}
-        >
-          {isAutoRotating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-        </button>
-
         {/* Reset View */}
         <button
           onClick={handleResetCamera}
@@ -383,7 +363,7 @@ export const HeroSilo3D: React.FC<HeroSilo3DProps> = ({ className = '' }) => {
       <div className="absolute bottom-4 left-4 z-20 hidden sm:flex items-center gap-2 bg-brand-black/75 px-3 py-1.5 border border-white/15 backdrop-blur-xs pointer-events-none">
         <Compass className="w-3.5 h-3.5 text-brand-yellow animate-spin" style={{ animationDuration: '8s' }} />
         <span className="text-[10px] font-mono-tech text-gray-300 uppercase tracking-wider">
-          CLICK & DRAG TO ROTATE 360° • SCROLL TO ZOOM
+          TAP TO INSPECT • ROTATES CONTINUOUSLY • SCROLL TO ZOOM
         </span>
       </div>
 
