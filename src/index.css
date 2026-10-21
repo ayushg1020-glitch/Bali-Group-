@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-white: #FFFFFF;
+    --color-black: #101010;
+    --color-yellow: #FACC15;
+    --color-yellow-hover: #EAB308;
+    --color-light-grey: #F5F5F5;
+    --color-text-grey: #666666;
+    --color-border-grey: #E5E5E5;
+  }
+
+  html {
+    font-family: 'Inter', sans-serif;
+    color: #101010;
+    background-color: #FFFFFF;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', sans-serif;
+    color: #101010;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Yellow accent corporate button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none bg-brand-yellow text-brand-black hover:bg-brand-yellow-hover transition-all duration-200 shadow-sm active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Black architectural outline button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white transition-all duration-200 active:translate-y-0.5;
+  }
+
+  /* White outline button for dark sections */
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none border border-white/30 text-white hover:bg-white hover:text-brand-black transition-all duration-200;
+  }
+
+  /* Industrial container standard */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section heading badge */
+  .badge-yellow {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 bg-brand-yellow/15 border-l-2 border-brand-yellow text-brand-black text-xs font-semibold uppercase tracking-wider font-heading;
+  }
+
+  /* Premium card container */
+  .card-premium {
+    @apply bg-white border border-brand-border-grey hover:border-brand-black transition-all duration-300;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #101010;
+}
