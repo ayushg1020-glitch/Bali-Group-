@@ -103,8 +103,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        if (parsed.homePageContent && !parsed.homePageContent.silo_construction) {
-          parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+        if (parsed.homePageContent) {
+          if (!parsed.homePageContent.silo_construction) {
+            parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+          }
+          if (!parsed.homePageContent.engineering_intro) {
+            parsed.homePageContent.engineering_intro = initialHomePageContent.engineering_intro;
+          }
         }
         return parsed; 
       } catch (e) { /* ignore */ }
@@ -124,8 +129,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) {
       try { 
         const parsed = JSON.parse(saved);
-        if (parsed.homePageContent && !parsed.homePageContent.silo_construction) {
-          parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+        if (parsed.homePageContent) {
+          if (!parsed.homePageContent.silo_construction) {
+            parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+          }
+          if (!parsed.homePageContent.engineering_intro) {
+            parsed.homePageContent.engineering_intro = initialHomePageContent.engineering_intro;
+          }
         }
         return parsed; 
       } catch (e) { /* ignore */ }

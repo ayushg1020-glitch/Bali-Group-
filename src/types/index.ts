@@ -147,8 +147,19 @@ export interface EnquiryCTAContent {
   contact_hotline: string;
 }
 
+export interface EngineeringIntroSectionContent {
+  label: string;
+  heading: string;
+  description: string;
+  image_url: string;
+  cta_text: string;
+  cta_link: string;
+  highlights?: string[];
+}
+
 export interface HomePageContent {
   hero: HeroSectionContent;
+  engineering_intro?: EngineeringIntroSectionContent;
   stats: StatItem[];
   about: AboutSectionContent;
   solutions_heading: {

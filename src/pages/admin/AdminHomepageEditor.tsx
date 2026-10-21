@@ -28,7 +28,7 @@ export const AdminHomepageEditor: React.FC = () => {
     isPreviewMode
   } = useCMS();
 
-  const [activeTab, setActiveTab] = useState<'hero' | 'stats' | 'about' | 'silo_construction' | 'manufacturing' | 'global' | 'cta'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'intro' | 'stats' | 'about' | 'silo_construction' | 'manufacturing' | 'global' | 'cta'>('hero');
   const [successMsg, setSuccessMsg] = useState('');
 
   const showNotification = (msg: string) => {
@@ -37,6 +37,19 @@ export const AdminHomepageEditor: React.FC = () => {
   };
 
   const hero = homePageContent.hero;
+  const intro = homePageContent.engineering_intro || {
+    label: 'BUILT ON PRECISION. DRIVEN BY ENGINEERING.',
+    heading: 'More Than Storage. Engineering Confidence.',
+    description: "Discover the engineering expertise, manufacturing precision and integrated solutions behind Bali Group's grain storage infrastructure.",
+    image_url: '/images/silos/flat-bottom2.jpg',
+    cta_text: 'Discover Our Engineering Legacy',
+    cta_link: '/about',
+    highlights: [
+      '2.66" sine corrugation profile maximizing hoop strength',
+      '350–600 GSM heavy galvanization for superior corrosion resistance',
+      'Turnkey EPC execution from foundation to SCADA automation',
+    ],
+  };
   const stats = homePageContent.stats;
   const about = homePageContent.about;
   const silo = homePageContent.silo_construction;
@@ -48,6 +61,13 @@ export const AdminHomepageEditor: React.FC = () => {
   const handleHeroChange = (field: keyof typeof hero, value: any) => {
     updateHomePageContentDraft({
       hero: { ...hero, [field]: value }
+    });
+  };
+
+  // Handler for Engineering Intro
+  const handleIntroChange = (field: string, value: any) => {
+    updateHomePageContentDraft({
+      engineering_intro: { ...intro, [field]: value }
     });
   };
 
@@ -149,6 +169,7 @@ export const AdminHomepageEditor: React.FC = () => {
       <div className="flex flex-wrap gap-2 bg-white p-2 border border-brand-border-grey shadow-2xs">
         {[
           { id: 'hero', label: 'Section 01: Hero' },
+          { id: 'intro', label: 'Engineering Intro' },
           { id: 'stats', label: 'Section 02: Stats' },
           { id: 'about', label: 'Section 03: About' },
           { id: 'silo_construction', label: '3D Silo Construction' },
@@ -318,6 +339,96 @@ export const AdminHomepageEditor: React.FC = () => {
                 onChange={(e) => handleHeroChange('overlay_opacity', parseFloat(e.target.value))}
                 className="w-full accent-brand-yellow"
               />
+            </div>
+          </div>
+        )}
+
+        {/* TAB: ENGINEERING INTRO */}
+        {activeTab === 'intro' && (
+          <div className="space-y-6 max-w-4xl">
+            <h3 className="text-lg font-heading font-bold text-brand-black border-b border-brand-light-grey pb-3">
+              Engineering Introduction (Below Hero)
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Section Tag / Label
+                </label>
+                <input
+                  type="text"
+                  value={intro.label}
+                  onChange={(e) => handleIntroChange('label', e.target.value)}
+                  className="w-full text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Main Headline
+                </label>
+                <input
+                  type="text"
+                  value={intro.heading}
+                  onChange={(e) => handleIntroChange('heading', e.target.value)}
+                  className="w-full text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Supporting Description
+                </label>
+                <textarea
+                  rows={3}
+                  value={intro.description}
+                  onChange={(e) => handleIntroChange('description', e.target.value)}
+                  className="w-full text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                    CTA Button Text
+                  </label>
+                  <input
+                    type="text"
+                    value={intro.cta_text}
+                    onChange={(e) => handleIntroChange('cta_text', e.target.value)}
+                    className="w-full text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                    CTA Button Link
+                  </label>
+                  <input
+                    type="text"
+                    value={intro.cta_link}
+                    onChange={(e) => handleIntroChange('cta_link', e.target.value)}
+                    className="w-full text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Feature Image URL
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={intro.image_url}
+                    onChange={(e) => handleIntroChange('image_url', e.target.value)}
+                    className="flex-1 text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
+                  />
+                </div>
+                {intro.image_url && (
+                  <div className="mt-3 w-48 h-28 border border-brand-border-grey overflow-hidden">
+                    <img src={intro.image_url} alt="Intro Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

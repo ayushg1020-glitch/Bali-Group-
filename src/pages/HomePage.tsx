@@ -1,6 +1,6 @@
 import React from 'react';
 import { HeroSection } from '../components/home/HeroSection';
-import { ClientsCarousel } from '../components/home/ClientsCarousel';
+import { EngineeringIntroSection } from '../components/home/EngineeringIntroSection';
 import { StatsSection } from '../components/home/StatsSection';
 import { AboutSection } from '../components/home/AboutSection';
 import { SiloConstructionSection } from '../components/silo3d/SiloConstructionSection';
@@ -24,8 +24,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenQuoteModal }) => {
       {/* SECTION 01: HERO */}
       <HeroSection onOpenQuoteModal={onOpenQuoteModal} />
 
-      {/* CLIENT LOGOS STRIP */}
-      <ClientsCarousel />
+      {/* NEW: ENGINEERING INTRODUCTION (REPLACES CUSTOMER LOGO STRIP) */}
+      <EngineeringIntroSection />
 
       {/* SECTION 02: COMPANY STATS */}
       <StatsSection />

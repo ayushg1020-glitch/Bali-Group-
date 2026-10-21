@@ -53,6 +53,19 @@ export const initialHomePageContent: HomePageContent = {
     image_url: '/images/silos/flat-bottom1.jpg',
     overlay_opacity: 0.45,
   },
+  engineering_intro: {
+    label: 'BUILT ON PRECISION. DRIVEN BY ENGINEERING.',
+    heading: 'More Than Storage. Engineering Confidence.',
+    description: "Discover the engineering expertise, manufacturing precision and integrated solutions behind Bali Group's grain storage infrastructure.",
+    image_url: '/images/silos/flat-bottom2.jpg',
+    cta_text: 'Discover Our Engineering Legacy',
+    cta_link: '/about',
+    highlights: [
+      '2.66" sine corrugation profile maximizing hoop strength',
+      '350–600 GSM heavy galvanization for superior corrosion resistance',
+      'Turnkey EPC execution from foundation to SCADA automation',
+    ],
+  },
   stats: [
     {
       id: 'stat-1',
