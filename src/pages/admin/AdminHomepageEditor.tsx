@@ -9,7 +9,9 @@ import {
   Plus, 
   Trash2, 
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  Layers,
+  Box
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
@@ -26,7 +28,7 @@ export const AdminHomepageEditor: React.FC = () => {
     isPreviewMode
   } = useCMS();
 
-  const [activeTab, setActiveTab] = useState<'hero' | 'stats' | 'about' | 'manufacturing' | 'global' | 'cta'>('hero');
+  const [activeTab, setActiveTab] = useState<'hero' | 'stats' | 'about' | 'silo_construction' | 'manufacturing' | 'global' | 'cta'>('hero');
   const [successMsg, setSuccessMsg] = useState('');
 
   const showNotification = (msg: string) => {
@@ -37,6 +39,7 @@ export const AdminHomepageEditor: React.FC = () => {
   const hero = homePageContent.hero;
   const stats = homePageContent.stats;
   const about = homePageContent.about;
+  const silo = homePageContent.silo_construction;
   const mfg = homePageContent.manufacturing;
   const gp = homePageContent.global_presence;
   const cta = homePageContent.enquiry_cta;
@@ -58,6 +61,23 @@ export const AdminHomepageEditor: React.FC = () => {
   const handleAboutChange = (field: keyof typeof about, value: any) => {
     updateHomePageContentDraft({
       about: { ...about, [field]: value }
+    });
+  };
+
+  // Handlers for Silo Construction
+  const handleSiloChange = (field: string, value: any) => {
+    if (!silo) return;
+    updateHomePageContentDraft({
+      silo_construction: { ...silo, [field]: value }
+    });
+  };
+
+  const handleSiloStageChange = (index: number, field: string, value: any) => {
+    if (!silo) return;
+    const stages = [...silo.stages];
+    stages[index] = { ...stages[index], [field]: value };
+    updateHomePageContentDraft({
+      silo_construction: { ...silo, stages }
     });
   };
 
@@ -131,6 +151,7 @@ export const AdminHomepageEditor: React.FC = () => {
           { id: 'hero', label: 'Section 01: Hero' },
           { id: 'stats', label: 'Section 02: Stats' },
           { id: 'about', label: 'Section 03: About' },
+          { id: 'silo_construction', label: '3D Silo Construction' },
           { id: 'manufacturing', label: 'Section 06: Manufacturing' },
           { id: 'global', label: 'Section 07: Global Footprint' },
           { id: 'cta', label: 'Section 09: Final CTA' },
@@ -549,6 +570,217 @@ export const AdminHomepageEditor: React.FC = () => {
                 }}
                 className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey"
               />
+            </div>
+          </div>
+        )}
+
+        {/* TAB: 3D SILO CONSTRUCTION EXPERIENCE */}
+        {activeTab === 'silo_construction' && silo && (
+          <div className="space-y-8 max-w-4xl">
+            {/* Header with Switch & Live Preview */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-brand-light-grey border border-brand-border-grey">
+              <div>
+                <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-brand-yellow bg-brand-black px-2 py-0.5">
+                  Interactive 3D WebGL
+                </span>
+                <h3 className="text-xl font-heading font-black text-brand-black mt-1">
+                  Scroll-Driven Silo Construction Experience
+                </h3>
+                <p className="text-xs text-brand-text-grey mt-0.5">
+                  Controls the 5-stage engineering assembly timeline scrubbed by user scroll on the homepage.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => handleSiloChange('enabled', !silo.enabled)}
+                  className={`px-3.5 py-2 text-xs font-heading font-bold uppercase tracking-wider border transition-all ${
+                    silo.enabled 
+                      ? 'bg-green-600 text-white border-green-700 shadow-xs' 
+                      : 'bg-red-50 text-red-600 border-red-200'
+                  }`}
+                >
+                  {silo.enabled ? '✓ Section Enabled' : '✕ Section Disabled'}
+                </button>
+
+                <a
+                  href="/#silo-construction-experience"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-2 text-xs font-heading font-bold uppercase tracking-wider bg-brand-black text-brand-yellow flex items-center gap-1.5 hover:bg-neutral-800 transition-colors"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  Preview 3D
+                </a>
+              </div>
+            </div>
+
+            {/* Main Section Headings */}
+            <div className="space-y-4 bg-white p-5 border border-brand-border-grey shadow-2xs">
+              <h4 className="font-heading font-bold text-sm text-brand-black uppercase tracking-wider border-b border-gray-100 pb-2">
+                1. Main Section Titles
+              </h4>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Badge / Eyebrow Text
+                </label>
+                <input
+                  type="text"
+                  value={silo.badge || ''}
+                  onChange={(e) => handleSiloChange('badge', e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Main Section Heading
+                </label>
+                <input
+                  type="text"
+                  value={silo.heading}
+                  onChange={(e) => handleSiloChange('heading', e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey font-bold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Supporting Line / Description
+                </label>
+                <textarea
+                  rows={2}
+                  value={silo.subheading}
+                  onChange={(e) => handleSiloChange('subheading', e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey"
+                />
+              </div>
+            </div>
+
+            {/* 5 Construction Stages */}
+            <div className="space-y-4">
+              <h4 className="font-heading font-bold text-sm text-brand-black uppercase tracking-wider">
+                2. Construction Timeline Stages (0% to 100% Scroll)
+              </h4>
+
+              {silo.stages.map((stage, idx) => (
+                <div key={stage.id || idx} className="bg-white p-5 border border-brand-border-grey shadow-2xs space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+                    <span className="text-xs font-mono font-bold bg-brand-yellow/30 text-brand-black px-2 py-0.5 rounded border border-brand-yellow/50">
+                      Phase {stage.number} • Scroll {Math.round(stage.range[0] * 100)}% – {Math.round(stage.range[1] * 100)}%
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">Stage ID: {stage.id}</span>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                      Stage Heading / Title
+                    </label>
+                    <input
+                      type="text"
+                      value={stage.title}
+                      onChange={(e) => handleSiloStageChange(idx, 'title', e.target.value)}
+                      className="w-full px-3 py-2 text-sm bg-brand-light-grey border border-brand-border-grey font-semibold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                      Engineering Explanation / Narrative
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={stage.description}
+                      onChange={(e) => handleSiloStageChange(idx, 'description', e.target.value)}
+                      className="w-full px-3 py-2 text-sm bg-brand-light-grey border border-brand-border-grey"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div>
+                      <label className="block text-[11px] font-heading font-bold uppercase tracking-wider text-gray-600 mb-1">
+                        Specification Label
+                      </label>
+                      <input
+                        type="text"
+                        value={stage.spec_label}
+                        onChange={(e) => handleSiloStageChange(idx, 'spec_label', e.target.value)}
+                        className="w-full px-3 py-1.5 text-xs bg-brand-light-grey border border-brand-border-grey"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-heading font-bold uppercase tracking-wider text-gray-600 mb-1">
+                        Specification Value
+                      </label>
+                      <input
+                        type="text"
+                        value={stage.spec_value}
+                        onChange={(e) => handleSiloStageChange(idx, 'spec_value', e.target.value)}
+                        className="w-full px-3 py-1.5 text-xs bg-brand-light-grey border border-brand-border-grey font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Final Reveal & Closing CTA Settings */}
+            <div className="space-y-4 bg-white p-5 border-2 border-brand-yellow shadow-2xs">
+              <h4 className="font-heading font-bold text-sm text-brand-black uppercase tracking-wider border-b border-gray-100 pb-2">
+                3. Final Reveal Headline & Call to Action (Stage 5 Completion)
+              </h4>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Closing Headline (90%–100% Scroll)
+                </label>
+                <input
+                  type="text"
+                  value={silo.final_heading}
+                  onChange={(e) => handleSiloChange('final_heading', e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey font-bold"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                  Closing Subheading
+                </label>
+                <textarea
+                  rows={2}
+                  value={silo.final_subheading}
+                  onChange={(e) => handleSiloChange('final_subheading', e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                    Yellow CTA Button Label
+                  </label>
+                  <input
+                    type="text"
+                    value={silo.cta_btn_text}
+                    onChange={(e) => handleSiloChange('cta_btn_text', e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
+                    CTA Button Destination URL
+                  </label>
+                  <input
+                    type="text"
+                    value={silo.cta_btn_link}
+                    onChange={(e) => handleSiloChange('cta_btn_link', e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         )}

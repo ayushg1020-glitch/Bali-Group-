@@ -173,7 +173,30 @@ export interface HomePageContent {
       icon: string;
     }[];
   };
+  silo_construction?: SiloConstructionSectionContent;
   enquiry_cta: EnquiryCTAContent;
+}
+
+export interface SiloConstructionStage {
+  id: string;
+  number: string;
+  range: [number, number];
+  title: string;
+  description: string;
+  spec_label: string;
+  spec_value: string;
+}
+
+export interface SiloConstructionSectionContent {
+  enabled: boolean;
+  badge: string;
+  heading: string;
+  subheading: string;
+  stages: SiloConstructionStage[];
+  final_heading: string;
+  final_subheading: string;
+  cta_btn_text: string;
+  cta_btn_link: string;
 }
 
 export interface MediaAsset {

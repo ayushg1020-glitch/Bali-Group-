@@ -37,8 +37,21 @@ export const AdminPageEditor: React.FC = () => {
     cta: true,
   });
 
-  const toggleVisibility = (secKey: keyof typeof sectionVisibility) => {
-    setSectionVisibility(prev => ({ ...prev, [secKey]: !prev[secKey] }));
+  const isSiloVisible = homePageContent.silo_construction?.enabled !== false;
+
+  const toggleVisibility = (secKey: string) => {
+    if (secKey === 'silo_construction' && homePageContent.silo_construction) {
+      updateHomePageContentDraft({
+        silo_construction: {
+          ...homePageContent.silo_construction,
+          enabled: !isSiloVisible,
+        },
+      });
+      setSuccessNotice(`Silo Construction 3D section ${!isSiloVisible ? 'enabled' : 'hidden'}.`);
+      setTimeout(() => setSuccessNotice(''), 2500);
+      return;
+    }
+    setSectionVisibility(prev => ({ ...prev, [secKey]: !prev[secKey as keyof typeof sectionVisibility] }));
     setSuccessNotice(`Section "${secKey}" visibility updated.`);
     setTimeout(() => setSuccessNotice(''), 2500);
   };
@@ -119,6 +132,7 @@ export const AdminPageEditor: React.FC = () => {
             { key: 'hero', name: 'SECTION 01: Hero Banner & Headline', type: 'Hero with dynamic overlay' },
             { key: 'stats', name: 'SECTION 02: Company Statistics Strip', type: '4-column KPI counters' },
             { key: 'about', name: 'SECTION 03: About Bali Group Overview', type: 'Image left, editorial copy right' },
+            { key: 'silo_construction', name: 'NEW: Silo Construction Experience (3D)', type: 'Scroll-driven Three.js engineering visualization' },
             { key: 'solutions', name: 'SECTION 04: Our Solutions Portfolio', type: 'Card grid with specifications' },
             { key: 'projects', name: 'SECTION 05: Featured Projects Gallery', type: 'Case study cards with capacity badges' },
             { key: 'manufacturing', name: 'SECTION 06: Manufacturing & Facilities', type: 'Alternating editorial layout' },
@@ -126,7 +140,7 @@ export const AdminPageEditor: React.FC = () => {
             { key: 'why', name: 'SECTION 08: Why Bali Group (4 Pillars)', type: 'Value proposition cards' },
             { key: 'cta', name: 'SECTION 09: Project Enquiry Call to Action', type: 'High-contrast conversion block' },
           ].map((sec, idx) => {
-            const isVisible = sectionVisibility[sec.key as keyof typeof sectionVisibility];
+            const isVisible = sec.key === 'silo_construction' ? isSiloVisible : sectionVisibility[sec.key as keyof typeof sectionVisibility];
 
             return (
               <div 

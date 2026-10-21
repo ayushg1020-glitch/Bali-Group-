@@ -101,7 +101,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [publishedData, setPublishedData] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PUBLISHED_DATA);
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+      try { 
+        const parsed = JSON.parse(saved);
+        if (parsed.homePageContent && !parsed.homePageContent.silo_construction) {
+          parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+        }
+        return parsed; 
+      } catch (e) { /* ignore */ }
     }
     return {
       companySettings: initialCompanySettings,
@@ -116,7 +122,13 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [draftData, setDraftData] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.DRAFT_DATA);
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* ignore */ }
+      try { 
+        const parsed = JSON.parse(saved);
+        if (parsed.homePageContent && !parsed.homePageContent.silo_construction) {
+          parsed.homePageContent.silo_construction = initialHomePageContent.silo_construction;
+        }
+        return parsed; 
+      } catch (e) { /* ignore */ }
     }
     return publishedData;
   });
