@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Calendar, Award, ShieldCheck, Send, PhoneCall } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 interface ProjectDetailPageProps {
   onOpenQuoteModal: (projectContext?: string) => void;
@@ -21,10 +22,15 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ onOpenQuot
   const activeImage = selectedImage || project.cover_image;
 
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Title Header */}
-      <section className="bg-brand-black text-white py-16 border-b-4 border-brand-yellow">
-        <div className="container-custom">
+      <section className="bg-brand-black text-white py-16 border-b-4 border-brand-yellow relative overflow-hidden">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 70% 50%, black 20%, transparent 80%)' }}
+        />
+        <div className="container-custom relative z-10">
           <Link 
             to="/projects"
             className="inline-flex items-center gap-1.5 text-xs font-heading font-bold uppercase tracking-wider text-brand-yellow hover:text-yellow-300 mb-4"
@@ -32,15 +38,18 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ onOpenQuot
             <ArrowLeft className="w-4 h-4" /> Back to Project Gallery
           </Link>
 
-          <div className="badge-yellow mb-3 text-brand-yellow">
-            {project.category}
-          </div>
+          <SectionEditorialTag
+            number="PROJECT FILE"
+            category={project.category}
+            spec={`REF: BG-PRJ-${project.id.toUpperCase()} • ${project.capacity}`}
+            light={true}
+          />
 
           <h1 className="text-3xl sm:text-5xl font-heading font-extrabold text-white tracking-tight">
             {project.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-6 mt-4 text-xs sm:text-sm text-gray-300">
+          <div className="flex flex-wrap items-center gap-6 mt-4 text-xs sm:text-sm text-gray-300 font-mono-tech">
             <span className="flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-brand-yellow" /> {project.location}
             </span>
@@ -62,7 +71,8 @@ export const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ onOpenQuot
             {/* Left Column: Image Showcase & Gallery */}
             <div className="lg:col-span-7 space-y-8">
               
-              <div className="border-2 border-brand-border-grey overflow-hidden shadow-sm">
+              <div className="border-2 border-brand-border-grey overflow-hidden shadow-sm relative group bg-white">
+                <CornerMarks />
                 <img 
                   src={activeImage} 
                   alt={project.title}

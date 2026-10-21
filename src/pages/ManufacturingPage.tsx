@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Cpu, Layers, CheckCircle2, Award, ArrowRight } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 interface ManufacturingPageProps {
   onOpenQuoteModal: () => void;
@@ -51,13 +52,21 @@ export const ManufacturingPage: React.FC<ManufacturingPageProps> = ({ onOpenQuot
   ];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Banner */}
       <section className="bg-brand-black text-white py-20 relative overflow-hidden border-b-4 border-brand-yellow">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 60% 50%, black 20%, transparent 80%)' }}
+        />
         <div className="container-custom relative z-10">
-          <div className="badge-yellow mb-4 text-brand-yellow">
-            STATE-OF-THE-ART PRODUCTION
-          </div>
+          <SectionEditorialTag
+            number="03"
+            category="PRODUCTION & FABRICATION"
+            spec="CHANDIGARH PLANT • 350-600 GSM GALVANIZING • 100% FACTORY PRE-FIT"
+            light={true}
+          />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
             Industrial Manufacturing Capabilities
           </h1>
@@ -90,19 +99,20 @@ export const ManufacturingPage: React.FC<ManufacturingPageProps> = ({ onOpenQuot
             return (
               <div 
                 key={step.title}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-white p-8 border border-brand-border-grey shadow-sm"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-white p-8 border border-brand-border-grey shadow-sm relative group"
               >
+                <CornerMarks />
                 <div className={`lg:col-span-6 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
                   <div className="relative overflow-hidden border border-brand-border-grey">
                     <img 
                       src={step.image} 
                       alt={step.title}
-                      className="w-full h-[320px] object-cover object-center"
+                      className="w-full h-[320px] object-cover object-center group-hover:scale-102 transition-transform duration-500"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
                       }}
                     />
-                    <div className="absolute top-4 left-4 bg-brand-black text-brand-yellow text-xs font-heading font-bold uppercase px-3 py-1 border-l-2 border-brand-yellow">
+                    <div className="absolute top-4 left-4 bg-brand-black text-brand-yellow text-xs font-heading font-bold uppercase px-3 py-1 border-l-2 border-brand-yellow z-20">
                       PROCESS 0{idx + 1}
                     </div>
                   </div>

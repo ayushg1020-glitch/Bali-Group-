@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Layers, Award, Cpu, CheckCircle2, ArrowRight } from 'lucide-react';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 interface EngineeringPageProps {
   onOpenQuoteModal: () => void;
@@ -7,13 +8,21 @@ interface EngineeringPageProps {
 
 export const EngineeringPage: React.FC<EngineeringPageProps> = ({ onOpenQuoteModal }) => {
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Banner */}
       <section className="bg-brand-black text-white py-20 relative overflow-hidden border-b-4 border-brand-yellow">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 60% 50%, black 20%, transparent 80%)' }}
+        />
         <div className="container-custom relative z-10">
-          <div className="badge-yellow mb-4 text-brand-yellow">
-            ADVANCED STRUCTURAL DESIGN
-          </div>
+          <SectionEditorialTag
+            number="04"
+            category="STRUCTURAL ENGINEERING & FEA"
+            spec="EUROCODE EN 1991-4 • DIN 1055 • ASTM A653 • SEISMIC ZONE IV"
+            light={true}
+          />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
             World-Class Silo Engineering & Standards
           </h1>

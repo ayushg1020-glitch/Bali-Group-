@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, ShieldCheck, Download, Send, PhoneCall } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 interface SolutionDetailPageProps {
   onOpenQuoteModal: (solutionTitle?: string) => void;
@@ -22,19 +23,27 @@ export const SolutionDetailPage: React.FC<SolutionDetailPageProps> = ({ onOpenQu
   const relatedProjects = projects.filter(p => p.published).slice(0, 2);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Top Breadcrumb & Title Banner */}
-      <section className="bg-brand-black text-white py-16 border-b-4 border-brand-yellow">
-        <div className="container-custom">
+      <section className="bg-brand-black text-white py-16 border-b-4 border-brand-yellow relative overflow-hidden">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 70% 50%, black 20%, transparent 80%)' }}
+        />
+        <div className="container-custom relative z-10">
           <Link 
             to="/solutions"
             className="inline-flex items-center gap-1.5 text-xs font-heading font-bold uppercase tracking-wider text-brand-yellow hover:text-yellow-300 mb-4"
           >
             <ArrowLeft className="w-4 h-4" /> Back to All Solutions
           </Link>
-          <div className="badge-yellow mb-3 text-brand-yellow">
-            {solution.category}
-          </div>
+          <SectionEditorialTag
+            number="SYSTEM SPEC"
+            category={solution.category}
+            spec={`SYSTEM REF: BG-${solution.id.toUpperCase()} • 2.66" SINE PITCH`}
+            light={true}
+          />
           <h1 className="text-3xl sm:text-5xl font-heading font-extrabold text-white tracking-tight">
             {solution.title}
           </h1>
@@ -53,7 +62,8 @@ export const SolutionDetailPage: React.FC<SolutionDetailPageProps> = ({ onOpenQu
             <div className="lg:col-span-7 space-y-10">
               
               {/* Main Image Showcase */}
-              <div className="border-2 border-brand-border-grey overflow-hidden shadow-sm">
+              <div className="border-2 border-brand-border-grey overflow-hidden shadow-sm relative group bg-white">
+                <CornerMarks />
                 <img 
                   src={activeImage} 
                   alt={solution.title}

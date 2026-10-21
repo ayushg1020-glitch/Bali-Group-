@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SiloCanvas } from './SiloCanvas';
 import { SiloConstructionSectionContent } from '../../types';
 import { ArrowRight, Layers, ShieldCheck, ChevronDown, CheckCircle2 } from 'lucide-react';
+import { MeasurementRuler, CornerMarks } from '../common/IndustrialGraphics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -171,18 +172,21 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
       className="relative min-h-[460vh] bg-[#F8FAFC]"
     >
       {/* Pinned / Sticky Viewport Section */}
-      <section className="sticky top-0 pt-20 sm:pt-24 h-screen w-full flex flex-col justify-between overflow-hidden bg-[#F8FAFC] border-y border-gray-200 select-none">
+      <section className="sticky top-0 pt-20 sm:pt-24 h-screen w-full flex flex-col justify-between overflow-hidden bg-[#F8FAFC] bg-blueprint-grid border-y border-gray-200 select-none">
+        {/* Subtle Architectural Blueprint Grid Ambient Fade */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(248,250,252,0.85)_100%)] pointer-events-none z-0" />
+
         {/* Top Minimal Navigation & Stage Header */}
         <header className="relative z-20 w-full px-6 sm:px-10 lg:px-14 xl:px-16 pt-3 pb-2 bg-gradient-to-b from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent pointer-events-none">
           <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3 pointer-events-auto">
             <div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-yellow/30 text-brand-black border border-brand-yellow/50 uppercase tracking-widest">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-yellow/30 text-brand-black border border-brand-yellow/50 uppercase tracking-widest font-mono-tech">
                   <Layers className="w-3 h-3 text-brand-black" />
-                  Interactive 3D Engineering
+                  03 / Interactive 3D Engineering
                 </span>
-                <span className="text-xs text-gray-500 font-mono hidden sm:inline-block">
-                  Stage {currentStageIndex + 1} of 5
+                <span className="text-xs text-gray-500 font-mono-tech hidden sm:inline-block">
+                  Stage {currentStageIndex + 1} of 5 // REF: CAD-BG2026
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-heading font-black text-brand-black uppercase tracking-tight mt-1">
@@ -220,6 +224,13 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
           </div>
         </header>
 
+        {/* Technical Coordinate Indicators (Desktop) */}
+        <div className="absolute right-8 top-28 z-10 hidden xl:flex flex-col items-end text-[10px] font-mono-tech text-gray-400 pointer-events-none space-y-0.5">
+          <span>// CAD-ENV: ARCHITECTURAL 36° FOV</span>
+          <span>// SILO MODEL: BG-FB-15K COMMERCIAL</span>
+          <span>// AXIS: X0.00 Y4.90 Z0.00 [NORMALIZED]</span>
+        </div>
+
         {/* Full-Bleed 3D WebGL Silo Canvas - Open Environment, No Framing Box, Whole Structure Visible */}
         <div className="absolute inset-x-0 bottom-0 top-20 sm:top-24 z-0 pointer-events-auto">
           <SiloCanvas
@@ -236,8 +247,10 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
             {progress < 0.9 ? (
               <div
                 key={currentStageIndex}
-                className="bg-white/95 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-gray-200/90 shadow-xl transition-all duration-300 space-y-3.5"
+                className="relative bg-white/95 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-gray-200/90 shadow-xl transition-all duration-300 space-y-3.5 group"
               >
+                <CornerMarks color="border-gray-300 group-hover:border-brand-yellow/70 transition-colors" />
+
                 {/* Stage Badge & Number */}
                 <div className="flex items-center justify-between">
                   <div className="inline-flex items-center gap-2">
@@ -284,7 +297,9 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
               </div>
             ) : (
               /* Stage 5: Final Commercial Silo Reveal Card */
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-7 border-2 border-brand-yellow shadow-2xl transition-all duration-300 space-y-4">
+              <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-7 border-2 border-brand-yellow shadow-2xl transition-all duration-300 space-y-4 group">
+                <CornerMarks color="border-brand-yellow/60 group-hover:border-brand-black transition-colors" />
+
                 <div className="flex items-center gap-2">
                   <span className="px-2.5 py-0.5 rounded-full bg-brand-yellow text-brand-black text-[11px] font-bold uppercase tracking-wider">
                     Structure Complete
@@ -331,6 +346,9 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
         {/* Bottom Interactive Engineering Progress Bar */}
         <footer className="relative z-20 w-full px-6 sm:px-10 lg:px-14 xl:px-16 pb-4 pt-2 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent pointer-events-none">
           <div className="w-full space-y-1.5 pointer-events-auto">
+            {/* Fine Measurement Ticks */}
+            <MeasurementRuler ticks={48} className="opacity-20" />
+
             <div className="flex items-center justify-between text-[11px] font-mono text-gray-500">
               <span className="font-semibold text-brand-black">0% Ground Foundation</span>
               <span className="hidden sm:inline">25% Wall Rings</span>

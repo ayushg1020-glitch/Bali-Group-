@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight, Search, ShieldCheck } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 export const ProjectsPage: React.FC = () => {
   const { projects } = useCMS();
@@ -33,13 +34,21 @@ export const ProjectsPage: React.FC = () => {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Header Banner */}
       <section className="bg-brand-black text-white py-20 relative overflow-hidden border-b-4 border-brand-yellow">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 60% 50%, black 20%, transparent 80%)' }}
+        />
         <div className="container-custom relative z-10">
-          <div className="badge-yellow mb-4 text-brand-yellow">
-            TRACK RECORD OF EXECUTION
-          </div>
+          <SectionEditorialTag
+            number="02"
+            category="PROJECT ARCHIVE"
+            spec="AUTHENTIC COMPANY INSTALLATIONS • 4.5M+ TONNES DELIVERED"
+            light={true}
+          />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
             Featured Silo Complexes & Turnkey Projects
           </h1>
@@ -105,8 +114,9 @@ export const ProjectsPage: React.FC = () => {
               {filteredProjects.map((proj) => (
                 <div 
                   key={proj.id}
-                  className="bg-white border border-brand-border-grey hover:border-brand-black group flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300"
+                  className="bg-white border border-brand-border-grey hover:border-brand-black group flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300 relative"
                 >
+                  <CornerMarks />
                   <div>
                     {/* Cover Photo */}
                     <div className="relative h-64 overflow-hidden bg-gray-100">

@@ -31,19 +31,19 @@
 }
 
 @layer components {
-  /* Yellow accent corporate button */
+  /* Yellow accent corporate button - sharp architectural geometry with smooth micro-interaction */
   .btn-primary {
-    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none bg-brand-yellow text-brand-black hover:bg-brand-yellow-hover transition-all duration-200 shadow-sm active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply relative inline-flex items-center justify-center font-heading font-bold text-xs uppercase tracking-wider px-7 py-3.5 rounded-none bg-brand-yellow text-brand-black hover:bg-brand-yellow-hover transition-all duration-200 shadow-sm active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed select-none;
   }
 
   /* Black architectural outline button */
   .btn-secondary {
-    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white transition-all duration-200 active:translate-y-0.5;
+    @apply relative inline-flex items-center justify-center font-heading font-bold text-xs uppercase tracking-wider px-7 py-3.5 rounded-none border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white transition-all duration-200 active:translate-y-0.5 select-none;
   }
 
   /* White outline button for dark sections */
   .btn-outline-white {
-    @apply inline-flex items-center justify-center font-heading font-semibold text-sm tracking-wide px-6 py-3.5 rounded-none border border-white/30 text-white hover:bg-white hover:text-brand-black transition-all duration-200;
+    @apply relative inline-flex items-center justify-center font-heading font-bold text-xs uppercase tracking-wider px-7 py-3.5 rounded-none border-2 border-white/40 text-white hover:bg-white hover:text-brand-black hover:border-white transition-all duration-200 select-none;
   }
 
   /* Industrial container standard */
@@ -56,9 +56,47 @@
     @apply inline-flex items-center gap-1.5 px-3 py-1 bg-brand-yellow/15 border-l-2 border-brand-yellow text-brand-black text-xs font-semibold uppercase tracking-wider font-heading;
   }
 
-  /* Premium card container */
+  /* Premium card container with crisp hairline border */
   .card-premium {
     @apply bg-white border border-brand-border-grey hover:border-brand-black transition-all duration-300;
+  }
+
+  /* Refined Industrial Card with subtle depth and corner registration */
+  .card-industrial {
+    @apply relative bg-white border border-brand-border-grey hover:border-brand-black transition-all duration-300 shadow-sm hover:shadow-premium;
+  }
+
+  /* Technical Monospace Micro-Label */
+  .font-mono-tech {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: 0.08em;
+  }
+
+  /* Brushed galvanized steel surface for feature cards and badges */
+  .bg-brushed-steel {
+    background: linear-gradient(135deg, #F8FAFC 0%, #EDF2F7 45%, #E2E8F0 50%, #EDF2F7 55%, #F8FAFC 100%);
+    position: relative;
+  }
+
+  /* Fine Blueprint Grid for technical backgrounds */
+  .bg-blueprint-grid {
+    background-size: 36px 36px;
+    background-image: 
+      linear-gradient(to right, rgba(16, 16, 16, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(16, 16, 16, 0.04) 1px, transparent 1px);
+  }
+
+  /* Dark Blueprint Grid */
+  .bg-blueprint-grid-dark {
+    background-size: 36px 36px;
+    background-image: 
+      linear-gradient(to right, rgba(250, 204, 21, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(250, 204, 21, 0.07) 1px, transparent 1px);
+  }
+
+  /* Subtle film / paper grain texture (1.5% opacity) */
+  .bg-paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
   }
 }
 

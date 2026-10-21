@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Layers, CheckCircle2, ChevronRight } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../common/IndustrialGraphics';
 
 export const FeaturedProjects: React.FC = () => {
   const { projects, homePageContent } = useCMS();
@@ -16,42 +17,47 @@ export const FeaturedProjects: React.FC = () => {
     .sort((a, b) => a.order - b.order);
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-white py-20 lg:py-28 relative">
       <div className="container-custom">
         
+        {/* Section Editorial Header */}
+        <SectionEditorialTag 
+          number="05" 
+          category="PROVEN INSTALLATIONS" 
+          spec="TURNKEY COMMISSIONED SITES"
+          className="mb-6"
+        />
+
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="max-w-2xl">
-            <div className="badge-yellow mb-3">
-              {heading.badge}
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-brand-black tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-brand-black tracking-tight leading-tight">
               {heading.title}
             </h2>
-            <p className="text-brand-text-grey text-base mt-3">
+            <p className="text-brand-text-grey text-base sm:text-lg mt-3 leading-relaxed">
               {heading.subtitle}
             </p>
           </div>
 
           <Link 
             to="/projects"
-            className="inline-flex items-center gap-2 font-heading font-bold text-sm text-brand-black hover:text-brand-yellow-hover uppercase tracking-wider group"
+            className="inline-flex items-center gap-2 font-heading font-bold text-xs text-brand-black hover:text-brand-yellow-hover uppercase tracking-wider group py-2 border-b-2 border-transparent hover:border-brand-black transition-all"
           >
             <span>View All Proven Projects</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap gap-2 mb-10 pb-4 border-b border-brand-light-grey">
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mb-10 pb-3 border-b border-brand-border-grey">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 text-xs font-heading font-bold uppercase tracking-wider transition-all duration-200 ${
+              className={`px-4 py-2 text-xs font-mono-tech uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeCategory === cat
-                  ? 'bg-brand-black text-brand-yellow border-b-2 border-brand-yellow'
-                  : 'bg-brand-light-grey text-brand-black hover:bg-gray-200'
+                  ? 'bg-brand-black text-brand-yellow border-b-2 border-brand-yellow font-bold shadow-sm'
+                  : 'bg-brand-light-grey text-brand-black hover:bg-gray-200 font-medium'
               }`}
             >
               {cat === 'all' ? 'All Featured Projects' : cat}
@@ -64,8 +70,10 @@ export const FeaturedProjects: React.FC = () => {
           {filteredProjects.slice(0, 4).map((proj) => (
             <div 
               key={proj.id}
-              className="border border-brand-border-grey hover:border-brand-black bg-white group flex flex-col sm:flex-row overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300"
+              className="relative border border-brand-border-grey hover:border-brand-black bg-white group flex flex-col sm:flex-row overflow-hidden shadow-sm hover:shadow-premium transition-all duration-300"
             >
+              <CornerMarks color="border-gray-200 group-hover:border-brand-yellow transition-colors" />
+
               {/* Actual Project Image */}
               <div className="sm:w-1/2 relative min-h-[260px] overflow-hidden bg-gray-100">
                 <img 
@@ -76,7 +84,7 @@ export const FeaturedProjects: React.FC = () => {
                     (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
                   }}
                 />
-                <div className="absolute top-3 left-3 bg-brand-yellow text-brand-black text-[10px] font-heading font-black uppercase tracking-wider px-2.5 py-1">
+                <div className="absolute top-3 left-3 bg-brand-yellow text-brand-black text-[10px] font-mono-tech font-bold uppercase tracking-wider px-2.5 py-1">
                   {proj.capacity}
                 </div>
               </div>
@@ -86,7 +94,7 @@ export const FeaturedProjects: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-1.5 text-xs text-brand-text-grey mb-1">
                     <MapPin className="w-3.5 h-3.5 text-brand-yellow-hover shrink-0" />
-                    <span className="line-clamp-1">{proj.location}</span>
+                    <span className="line-clamp-1 font-mono-tech text-[11px]">{proj.location}</span>
                   </div>
 
                   <h3 className="font-heading font-bold text-lg text-brand-black group-hover:text-brand-yellow-hover transition-colors leading-snug">
@@ -98,13 +106,13 @@ export const FeaturedProjects: React.FC = () => {
                   </p>
 
                   {/* Technical Snapshot Table */}
-                  <div className="mt-4 bg-brand-light-grey p-3 space-y-1.5 border-l-2 border-brand-yellow text-xs">
+                  <div className="mt-4 bg-brand-light-grey/80 p-3 space-y-1.5 border-l-2 border-brand-yellow text-xs font-mono-tech">
                     <div className="flex justify-between">
-                      <span className="text-brand-text-grey">Commodity:</span>
+                      <span className="text-brand-text-grey uppercase text-[10px]">Commodity:</span>
                       <span className="font-semibold text-brand-black">{proj.commodity}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-brand-text-grey">Year Delivered:</span>
+                      <span className="text-brand-text-grey uppercase text-[10px]">Delivered:</span>
                       <span className="font-semibold text-brand-black">{proj.year_completed}</span>
                     </div>
                   </div>

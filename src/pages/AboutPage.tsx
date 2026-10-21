@@ -11,6 +11,7 @@ import {
   Users 
 } from 'lucide-react';
 import { useCMS } from '../context/CMSContext';
+import { SectionEditorialTag, CornerMarks } from '../components/common/IndustrialGraphics';
 
 interface AboutPageProps {
   onOpenQuoteModal: () => void;
@@ -20,13 +21,21 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenQuoteModal }) => {
   const { companySettings } = useCMS();
 
   return (
-    <div className="bg-white">
+    <div className="bg-white bg-paper-grain">
       {/* Page Header Banner */}
       <section className="bg-brand-black text-white py-20 relative overflow-hidden border-b-4 border-brand-yellow">
+        {/* Blueprint CAD Grid Overlay with Radial Fade */}
+        <div 
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-15 pointer-events-none"
+          style={{ maskImage: 'radial-gradient(circle at 60% 50%, black 20%, transparent 80%)' }}
+        />
         <div className="container-custom relative z-10">
-          <div className="badge-yellow mb-4 text-brand-yellow">
-            CORPORATE PROFILE & HERITAGE
-          </div>
+          <SectionEditorialTag
+            number="05"
+            category="CORPORATE PROFILE & HERITAGE"
+            spec="ESTABLISHED 1993 • THREE GENERATIONS • 4.5M+ TONNES DELIVERED"
+            light={true}
+          />
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
             Pioneering Grain Storage Infrastructure Since 1993
           </h1>

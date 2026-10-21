@@ -14,8 +14,11 @@ export const Footer: React.FC = () => {
   const { companySettings } = useCMS();
 
   return (
-    <footer className="bg-brand-black text-white pt-16 pb-8 border-t-4 border-brand-yellow">
-      <div className="container-custom">
+    <footer className="bg-brand-black text-white pt-16 pb-8 border-t-4 border-brand-yellow relative overflow-hidden">
+      {/* Background CAD Grid */}
+      <div className="absolute inset-0 bg-blueprint-grid-dark opacity-25 pointer-events-none" />
+
+      <div className="container-custom relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-neutral-800">
           
           {/* Brand & Summary Column */}
@@ -33,7 +36,7 @@ export const Footer: React.FC = () => {
                 <span className="font-heading font-extrabold text-2xl tracking-tight uppercase text-white">
                   BALI <span className="text-brand-yellow">GROUP</span>
                 </span>
-                <p className="text-[10px] text-gray-400 tracking-wider uppercase">Silo Solutions & Turnkey EPC</p>
+                <p className="text-[10px] text-gray-400 font-mono-tech uppercase tracking-wider">Silo Solutions & Turnkey EPC</p>
               </div>
             </div>
 
@@ -42,10 +45,10 @@ export const Footer: React.FC = () => {
             </p>
 
             <div className="pt-2">
-              <span className="text-xs uppercase font-heading font-bold tracking-wider text-brand-yellow block mb-2">
+              <span className="text-xs uppercase font-mono-tech font-bold tracking-wider text-brand-yellow block mb-2">
                 Certified Engineering Standards
               </span>
-              <div className="flex flex-wrap gap-2 text-[11px] text-gray-400">
+              <div className="flex flex-wrap gap-2 text-[11px] font-mono-tech text-gray-300">
                 <span className="bg-neutral-900 border border-neutral-800 px-2.5 py-1">ISO 9001:2015</span>
                 <span className="bg-neutral-900 border border-neutral-800 px-2.5 py-1">EN 1991-4 (Eurocode)</span>
                 <span className="bg-neutral-900 border border-neutral-800 px-2.5 py-1">DIN 1055 Standard</span>

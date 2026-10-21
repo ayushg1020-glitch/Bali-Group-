@@ -11,18 +11,26 @@ export const ClientsCarousel: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white py-10 border-b border-brand-border-grey">
+    <div className="bg-white py-10 border-b border-brand-border-grey relative overflow-hidden bg-paper-grain">
       <div className="container-custom">
-        <p className="text-center text-xs font-heading font-extrabold uppercase tracking-widest text-brand-text-grey mb-6">
-          Trusted By Major Grain Processors, Port Terminals & Distilleries
-        </p>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 items-center justify-items-center opacity-75 hover:opacity-100 transition-opacity">
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="h-px bg-brand-border-grey flex-1 hidden sm:block" />
+          <p className="text-center text-[11px] font-mono-tech uppercase tracking-widest text-brand-text-grey shrink-0">
+            <span className="text-brand-yellow font-bold mr-1">//</span> Trusted By Major Grain Processors, Port Terminals & Distilleries
+          </p>
+          <div className="h-px bg-brand-border-grey flex-1 hidden sm:block" />
+        </div>
+
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-6 items-center justify-items-center opacity-80 hover:opacity-100 transition-opacity">
           {clients.map((c, idx) => (
-            <div key={idx} className="h-12 flex items-center justify-center p-2 grayscale hover:grayscale-0 transition-all">
+            <div 
+              key={idx} 
+              className="h-12 w-full flex items-center justify-center p-2.5 grayscale hover:grayscale-0 transition-all border border-transparent hover:border-gray-200 bg-transparent hover:bg-white"
+            >
               <img 
                 src={c.logo} 
                 alt={c.name}
-                className="max-h-8 sm:max-h-10 w-auto object-contain"
+                className="max-h-8 sm:max-h-9 w-auto object-contain transition-transform hover:scale-105"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
