@@ -14,29 +14,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenQuoteModal }) =>
   const hero = homePageContent.hero;
 
   return (
-    <section className="relative min-h-[680px] lg:min-h-[820px] bg-brand-black flex items-center overflow-hidden">
-      {/* Background Silo Architectural Ambience */}
+    <section className="relative min-h-[660px] lg:min-h-[780px] bg-neutral-900 flex items-center overflow-hidden">
+      {/* Background Silo Photography - Clearly visible with natural brightness */}
       <div className="absolute inset-0 z-0">
         <img 
-          src={hero.image_url} 
+          src={hero.image_url || '/images/silos/flat-bottom1.jpg'} 
           alt="Bali Group Grain Storage Silo Facility"
-          className="w-full h-full object-cover object-center scale-102 opacity-25"
-          style={{ filter: 'brightness(1.10) contrast(1.05)' }}
+          className="w-full h-full object-cover object-center scale-102 transition-transform duration-1000 ease-out"
+          style={{ filter: 'brightness(1.06) contrast(1.02)' }}
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
           }}
         />
-        {/* Directional Gradient Overlay */}
+        {/* Soft Directional Vignette - Protects left text legibility while keeping the rest of the image brightly visible */}
         <div 
-          className="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 60% to-brand-black/75"
+          className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 45% to-black/10 70% lg:to-transparent pointer-events-none"
         />
-        {/* Subtle Vertical Vignette */}
+        {/* Subtle Edge Vignette */}
         <div 
-          className="absolute inset-0 bg-gradient-to-b from-brand-black/60 via-transparent to-brand-black/80 pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/40 pointer-events-none"
         />
-        {/* Subtle engineering blueprint grid overlay */}
+        {/* Fine Architectural Blueprint CAD Grid (Light & Translucent) */}
         <div 
-          className="absolute inset-0 bg-blueprint-grid-dark opacity-35 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_90%)] pointer-events-none"
+          className="absolute inset-0 bg-blueprint-grid-dark opacity-20 pointer-events-none [mask-image:radial-gradient(circle_at_center,black_30%,transparent_85%)]"
         />
       </div>
 
@@ -138,7 +138,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenQuoteModal }) =>
 
           {/* Right Column: Interactive 3D Silo Model Stage */}
           <div className="lg:col-span-5 xl:col-span-6 w-full">
-            <div className="relative border border-white/20 bg-brand-black/70 backdrop-blur-sm shadow-2xl overflow-hidden group">
+            <div className="relative border border-white/20 bg-black/15 backdrop-blur-[2px] shadow-2xl overflow-hidden group">
               <CornerMarks color="border-white/30 group-hover:border-brand-yellow/80" />
               <HeroSilo3D className="h-[460px] sm:h-[520px] lg:h-[580px]" />
             </div>
