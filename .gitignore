@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw 3D archives (already copied to public/models)
+grain_silo.zip
+grain_silo/
