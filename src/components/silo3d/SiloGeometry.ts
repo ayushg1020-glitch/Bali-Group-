@@ -411,51 +411,52 @@ export function updateSiloConstruction(
   // ----------------------------------------------------
   // CAMERA POSITIONING & INSPECTION ORBIT (p in 0.0 to 1.0)
   // Designed so the entire silo from base to peak is 100% whole with generous margins
+  // Center axis is strictly (0, Y, 0) in all stages for dead-center framing
   // ----------------------------------------------------
   if (p < 0.18) {
     // Stage 1 Camera: Low angle ground footing, showing full circular slab, plinth, and ground shadow
     const t = p / 0.18;
-    const radius = 17.5 - t * 0.5;
+    const radius = 18.0 - t * 0.5;
     const angle = Math.PI / 4 + 0.1;
-    camera.position.x = offsetX + Math.cos(angle) * radius;
+    camera.position.x = Math.cos(angle) * radius;
     camera.position.y = 3.8 + t * 0.8;
     camera.position.z = Math.sin(angle) * radius;
-    camera.lookAt(offsetX, 1.2 + t * 0.6, 0);
+    camera.lookAt(0, 1.2 + t * 0.6, 0);
   } else if (p < 0.55) {
     // Stage 2 Camera: Smooth elevation tracking growing rings, pulling back to frame full cylinder and base
     const t = (p - 0.18) / 0.37;
-    const radius = 17.0 + t * 4.0; // from 17.0 to 21.0
+    const radius = 17.5 + t * 4.5; // 17.5 to 22.0
     const angle = Math.PI / 4 + 0.1 - t * 0.1;
-    camera.position.x = offsetX + Math.cos(angle) * radius;
-    camera.position.y = 4.6 + t * 2.2; // from 4.6 to 6.8
+    camera.position.x = Math.cos(angle) * radius;
+    camera.position.y = 4.6 + t * 2.2; // 4.6 to 6.8
     camera.position.z = Math.sin(angle) * radius;
-    camera.lookAt(offsetX, 1.8 + t * 2.6, 0); // target smoothly ascends from 1.8 to 4.4
+    camera.lookAt(0, 1.8 + t * 2.8, 0); // smoothly ascends from 1.8 to 4.6
   } else if (p < 0.75) {
     // Stage 3 Camera: Higher pitch framing the 30° roof installation with generous sky clearance
     const t = (p - 0.55) / 0.2;
-    const radius = 21.0 + t * 1.0; // 21.0 to 22.0
+    const radius = 22.0 + t * 1.5; // 22.0 to 23.5
     const angle = Math.PI / 4 + t * 0.08;
-    camera.position.x = offsetX + Math.cos(angle) * radius;
-    camera.position.y = 6.8 + t * 0.4;
+    camera.position.x = Math.cos(angle) * radius;
+    camera.position.y = 6.8 + t * 0.4; // 6.8 to 7.2
     camera.position.z = Math.sin(angle) * radius;
-    camera.lookAt(offsetX, 4.6 + t * 0.2, 0);
+    camera.lookAt(0, 4.6 + t * 0.1, 0);
   } else if (p < 0.90) {
     // Stage 4 Camera: Framing ladder, safety cage and entire structure height
     const t = (p - 0.75) / 0.15;
-    const radius = 22.0 + t * 0.5;
+    const radius = 23.5 + t * 1.0; // 23.5 to 24.5
     const angle = Math.PI / 4 + 0.08 + t * 0.05;
-    camera.position.x = offsetX + Math.cos(angle) * radius;
-    camera.position.y = 7.0 - t * 0.4;
+    camera.position.x = Math.cos(angle) * radius;
+    camera.position.y = 7.2 - t * 0.4; // 7.2 to 6.8
     camera.position.z = Math.sin(angle) * radius;
-    camera.lookAt(offsetX, 4.8, 0);
+    camera.lookAt(0, 4.7 + t * 0.2, 0); // 4.7 to 4.9
   } else {
-    // Stage 5 Camera: Majestic Orbit & Pullback reveal — WHOLE SILO FULLY VISIBLE WITH AMPLE MARGINS
+    // Stage 5 Camera: Majestic Orbit & Pullback reveal — WHOLE SILO 100% CENTERED
     const t = (p - 0.90) / 0.1;
     const orbitAngle = Math.PI / 4 + 0.13 + t * 0.32; // smooth 18° inspection arc
-    const orbitRadius = 22.5 + t * 1.8; // radius 22.5 to 24.3 gives ample clearance top and bottom
-    camera.position.x = offsetX + Math.cos(orbitAngle) * orbitRadius;
-    camera.position.y = 6.6 - t * 0.6;
+    const orbitRadius = 24.5 + t * 1.5; // 24.5 to 26.0 ensures silo occupies center ~32% width
+    camera.position.x = Math.cos(orbitAngle) * orbitRadius;
+    camera.position.y = 6.8 - t * 0.6; // 6.8 to 6.2
     camera.position.z = Math.sin(orbitAngle) * orbitRadius;
-    camera.lookAt(offsetX, 4.8, 0); // centered right at half the structure height
+    camera.lookAt(0, 4.9, 0); // perfectly centered at half structure height
   }
 }

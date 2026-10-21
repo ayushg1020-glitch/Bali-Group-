@@ -109,8 +109,7 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
 
     // Initial update
     const initProgress = isReducedMotion ? 1.0 : progress;
-    const initOffsetX = width >= 1024 ? 2.0 : 0;
-    updateSiloConstruction(siloElements, initProgress, camera, initOffsetX);
+    updateSiloConstruction(siloElements, initProgress, camera, 0);
     renderer.render(scene, camera);
 
     // 6. RESIZE OBSERVER
@@ -126,8 +125,7 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
         renderer.setSize(newWidth, newHeight);
 
         const targetP = isReducedMotion ? 1.0 : progress;
-        const currentOffsetX = newWidth >= 1024 ? 2.0 : 0;
-        updateSiloConstruction(elementsRef.current, targetP, camera, currentOffsetX);
+        updateSiloConstruction(elementsRef.current, targetP, camera, 0);
         renderer.render(scene, camera);
       }
     };
@@ -171,13 +169,11 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
     const camera = cameraRef.current;
     const renderer = rendererRef.current;
     const scene = sceneRef.current;
-    const container = containerRef.current;
 
-    if (!elements || !camera || !renderer || !scene || !container) return;
+    if (!elements || !camera || !renderer || !scene) return;
 
     const targetProgress = isReducedMotion ? 1.0 : progress;
-    const offsetX = container.clientWidth >= 1024 ? 2.0 : 0;
-    updateSiloConstruction(elements, targetProgress, camera, offsetX);
+    updateSiloConstruction(elements, targetProgress, camera, 0);
     renderer.render(scene, camera);
   }, [progress, isReducedMotion]);
 
