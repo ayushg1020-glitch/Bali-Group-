@@ -50,10 +50,10 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
     scene.background = new THREE.Color(0xF8FAFC);
     scene.fog = new THREE.FogExp2(0xF8FAFC, 0.018);
 
-    // 2. CAMERA
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.5, 100);
-    camera.position.set(8.5, 2.5, 11.5);
-    camera.lookAt(0, 0.8, 0);
+    // 2. CAMERA - Architectural 36° FOV for realistic engineering perspective
+    const aspect = width / height;
+    const initFov = aspect < 1.0 ? Math.min(52, (36 / aspect) * 0.75) : 36;
+    const camera = new THREE.PerspectiveCamera(initFov, aspect, 0.5, 120);
     cameraRef.current = camera;
 
     // 3. RENDERER
@@ -109,18 +109,25 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
 
     // Initial update
     const initProgress = isReducedMotion ? 1.0 : progress;
-    updateSiloConstruction(siloElements, initProgress, camera);
+    const initOffsetX = width >= 1024 ? 2.0 : 0;
+    updateSiloConstruction(siloElements, initProgress, camera, initOffsetX);
     renderer.render(scene, camera);
 
     // 6. RESIZE OBSERVER
     const handleResize = () => {
-      if (!container || !renderer || !camera) return;
+      if (!container || !renderer || !camera || !elementsRef.current) return;
       const newWidth = container.clientWidth;
       const newHeight = container.clientHeight;
       if (newWidth > 0 && newHeight > 0) {
-        camera.aspect = newWidth / newHeight;
+        const newAspect = newWidth / newHeight;
+        camera.aspect = newAspect;
+        camera.fov = newAspect < 1.0 ? Math.min(52, (36 / newAspect) * 0.75) : 36;
         camera.updateProjectionMatrix();
         renderer.setSize(newWidth, newHeight);
+
+        const targetP = isReducedMotion ? 1.0 : progress;
+        const currentOffsetX = newWidth >= 1024 ? 2.0 : 0;
+        updateSiloConstruction(elementsRef.current, targetP, camera, currentOffsetX);
         renderer.render(scene, camera);
       }
     };
@@ -164,11 +171,13 @@ export const SiloCanvas: React.FC<SiloCanvasProps> = ({
     const camera = cameraRef.current;
     const renderer = rendererRef.current;
     const scene = sceneRef.current;
+    const container = containerRef.current;
 
-    if (!elements || !camera || !renderer || !scene) return;
+    if (!elements || !camera || !renderer || !scene || !container) return;
 
     const targetProgress = isReducedMotion ? 1.0 : progress;
-    updateSiloConstruction(elements, targetProgress, camera);
+    const offsetX = container.clientWidth >= 1024 ? 2.0 : 0;
+    updateSiloConstruction(elements, targetProgress, camera, offsetX);
     renderer.render(scene, camera);
   }, [progress, isReducedMotion]);
 

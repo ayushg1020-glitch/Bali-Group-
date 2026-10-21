@@ -220,14 +220,23 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
           </div>
         </header>
 
-        {/* Main Content Area: Left Stage Explanations + Center/Right 3D Silo Canvas */}
-        <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center min-h-0">
+        {/* Full-Bleed 3D WebGL Silo Canvas - Open Environment, No Framing Box, Whole Structure Visible */}
+        <div className="absolute inset-0 top-14 sm:top-20 bottom-10 w-full h-[calc(100%-6rem)] z-0 pointer-events-auto">
+          <SiloCanvas
+            progress={progress}
+            isReducedMotion={false}
+            className="w-full h-full"
+          />
+        </div>
+
+        {/* Floating Narrative Content Area (Left side over the seamless 3D scene) */}
+        <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 flex items-center min-h-0 pointer-events-none">
           {/* Left Column: Stage Headings, Engineering Explanations & Specs */}
-          <div className="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-6 z-20 pointer-events-auto">
+          <div className="w-full lg:w-5/12 max-w-lg flex flex-col justify-center space-y-4 sm:space-y-6 pointer-events-auto my-auto">
             {progress < 0.9 ? (
               <div
                 key={currentStageIndex}
-                className="bg-white/95 backdrop-blur-md rounded-2xl p-5 sm:p-7 border border-gray-200/90 shadow-lg transition-all duration-300"
+                className="bg-white/95 backdrop-blur-md rounded-2xl p-5 sm:p-7 border border-gray-200/90 shadow-xl transition-all duration-300"
               >
                 {/* Stage Badge & Number */}
                 <div className="flex items-center justify-between mb-3">
@@ -269,7 +278,7 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
               </div>
             ) : (
               /* Stage 5: Final Commercial Silo Reveal Card */
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 border-2 border-brand-yellow shadow-xl transition-all duration-300">
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 border-2 border-brand-yellow shadow-2xl transition-all duration-300">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="px-2.5 py-0.5 rounded-full bg-brand-yellow text-brand-black text-[11px] font-bold uppercase tracking-wider">
                     Structure Complete
@@ -308,15 +317,6 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
               <ChevronDown className="w-3.5 h-3.5 animate-bounce text-brand-yellow" />
               <span>Scroll down to assemble • Scroll up to reverse</span>
             </div>
-          </div>
-
-          {/* Center/Right Column: 3D WebGL Silo Canvas */}
-          <div className="lg:col-span-7 h-[320px] sm:h-[440px] lg:h-[560px] w-full relative rounded-2xl overflow-hidden flex items-center justify-center">
-            <SiloCanvas
-              progress={progress}
-              isReducedMotion={false}
-              className="w-full h-full"
-            />
           </div>
         </div>
 

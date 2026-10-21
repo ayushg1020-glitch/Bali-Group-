@@ -304,7 +304,8 @@ export function buildSiloModel(): SiloMeshElements {
 export function updateSiloConstruction(
   elements: SiloMeshElements,
   progress: number,
-  camera: THREE.PerspectiveCamera
+  camera: THREE.PerspectiveCamera,
+  offsetX: number = 0
 ) {
   const p = Math.max(0, Math.min(1, progress));
   const { foundationGroup, rings, stiffeners, roofGroup, accessoriesGroup, groundShadow } = elements;
@@ -409,43 +410,52 @@ export function updateSiloConstruction(
 
   // ----------------------------------------------------
   // CAMERA POSITIONING & INSPECTION ORBIT (p in 0.0 to 1.0)
+  // Designed so the entire silo from base to peak is 100% whole with generous margins
   // ----------------------------------------------------
   if (p < 0.18) {
-    // Stage 1 Camera: Low angle ground footing
+    // Stage 1 Camera: Low angle ground footing, showing full circular slab, plinth, and ground shadow
     const t = p / 0.18;
-    camera.position.x = 8.5;
-    camera.position.y = 2.5 + t * 0.8;
-    camera.position.z = 11.5;
-    camera.lookAt(0, 0.8, 0);
+    const radius = 17.5 - t * 0.5;
+    const angle = Math.PI / 4 + 0.1;
+    camera.position.x = offsetX + Math.cos(angle) * radius;
+    camera.position.y = 3.8 + t * 0.8;
+    camera.position.z = Math.sin(angle) * radius;
+    camera.lookAt(offsetX, 1.2 + t * 0.6, 0);
   } else if (p < 0.55) {
-    // Stage 2 Camera: Smooth elevation tracking growing rings
+    // Stage 2 Camera: Smooth elevation tracking growing rings, pulling back to frame full cylinder and base
     const t = (p - 0.18) / 0.37;
-    camera.position.x = 8.5 - t * 2.0;
-    camera.position.y = 3.3 + t * 4.5;
-    camera.position.z = 11.5 - t * 1.0;
-    camera.lookAt(0, 1.5 + t * 3.0, 0);
+    const radius = 17.0 + t * 4.0; // from 17.0 to 21.0
+    const angle = Math.PI / 4 + 0.1 - t * 0.1;
+    camera.position.x = offsetX + Math.cos(angle) * radius;
+    camera.position.y = 4.6 + t * 2.2; // from 4.6 to 6.8
+    camera.position.z = Math.sin(angle) * radius;
+    camera.lookAt(offsetX, 1.8 + t * 2.6, 0); // target smoothly ascends from 1.8 to 4.4
   } else if (p < 0.75) {
-    // Stage 3 Camera: Higher pitch framing the 30° roof
+    // Stage 3 Camera: Higher pitch framing the 30° roof installation with generous sky clearance
     const t = (p - 0.55) / 0.2;
-    camera.position.x = 6.5 - t * 1.5;
-    camera.position.y = 7.8 + t * 1.5;
-    camera.position.z = 10.5;
-    camera.lookAt(0, 5.5 + t * 1.5, 0);
+    const radius = 21.0 + t * 1.0; // 21.0 to 22.0
+    const angle = Math.PI / 4 + t * 0.08;
+    camera.position.x = offsetX + Math.cos(angle) * radius;
+    camera.position.y = 6.8 + t * 0.4;
+    camera.position.z = Math.sin(angle) * radius;
+    camera.lookAt(offsetX, 4.6 + t * 0.2, 0);
   } else if (p < 0.90) {
-    // Stage 4 Camera: Pulling back to frame ladder and full height
+    // Stage 4 Camera: Framing ladder, safety cage and entire structure height
     const t = (p - 0.75) / 0.15;
-    camera.position.x = 5.0 + t * 2.5;
-    camera.position.y = 9.3 - t * 1.5;
-    camera.position.z = 10.5 + t * 2.5;
-    camera.lookAt(0, 4.5, 0);
+    const radius = 22.0 + t * 0.5;
+    const angle = Math.PI / 4 + 0.08 + t * 0.05;
+    camera.position.x = offsetX + Math.cos(angle) * radius;
+    camera.position.y = 7.0 - t * 0.4;
+    camera.position.z = Math.sin(angle) * radius;
+    camera.lookAt(offsetX, 4.8, 0);
   } else {
-    // Stage 5 Camera: Cinematic 30° Orbit & Pullback reveal
+    // Stage 5 Camera: Majestic Orbit & Pullback reveal — WHOLE SILO FULLY VISIBLE WITH AMPLE MARGINS
     const t = (p - 0.90) / 0.1;
-    const orbitAngle = Math.PI / 4 + t * 0.45; // ~26 deg orbit
-    const orbitRadius = 13.0 + t * 2.2;
-    camera.position.x = Math.cos(orbitAngle) * orbitRadius;
-    camera.position.y = 7.8 - t * 0.8;
+    const orbitAngle = Math.PI / 4 + 0.13 + t * 0.32; // smooth 18° inspection arc
+    const orbitRadius = 22.5 + t * 1.8; // radius 22.5 to 24.3 gives ample clearance top and bottom
+    camera.position.x = offsetX + Math.cos(orbitAngle) * orbitRadius;
+    camera.position.y = 6.6 - t * 0.6;
     camera.position.z = Math.sin(orbitAngle) * orbitRadius;
-    camera.lookAt(0, 4.2, 0);
+    camera.lookAt(offsetX, 4.8, 0); // centered right at half the structure height
   }
 }
