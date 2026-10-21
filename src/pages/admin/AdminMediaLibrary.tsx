@@ -20,6 +20,7 @@ export const AdminMediaLibrary: React.FC = () => {
   const { 
     mediaAssets, 
     uploadMediaAsset, 
+    updateMediaAsset,
     deleteMediaAsset, 
     replaceMediaAsset, 
     checkMediaUsage,
@@ -247,22 +248,61 @@ export const AdminMediaLibrary: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2.5 text-xs">
                 <div>
                   <span className="text-brand-text-grey font-semibold">Filename:</span>
                   <p className="font-bold text-brand-black truncate">{selectedAsset.filename}</p>
                 </div>
                 <div>
-                  <span className="text-brand-text-grey font-semibold">MIME Type:</span>
-                  <p className="text-brand-black">{selectedAsset.mime_type}</p>
+                  <span className="text-brand-text-grey font-semibold">MIME Type & Size:</span>
+                  <p className="text-brand-black">{selectedAsset.mime_type} • {(selectedAsset.size_bytes / 1024).toFixed(1)} KB</p>
                 </div>
+
                 <div>
-                  <span className="text-brand-text-grey font-semibold">File Size:</span>
-                  <p className="text-brand-black">{(selectedAsset.size_bytes / 1024).toFixed(1)} KB</p>
+                  <label className="block text-[11px] font-bold text-brand-black mb-0.5">Asset Title</label>
+                  <input
+                    type="text"
+                    value={selectedAsset.title}
+                    onChange={(e) => {
+                      const updated = { ...selectedAsset, title: e.target.value };
+                      setSelectedAsset(updated);
+                      updateMediaAsset(selectedAsset.id, { title: e.target.value });
+                    }}
+                    className="w-full px-2.5 py-1.5 text-xs bg-brand-light-grey border border-brand-border-grey font-semibold focus:border-brand-black"
+                  />
                 </div>
+
                 <div>
-                  <span className="text-brand-text-grey font-semibold">Category:</span>
-                  <p className="text-brand-black uppercase font-bold text-[10px]">{selectedAsset.category}</p>
+                  <label className="block text-[11px] font-bold text-brand-black mb-0.5">Alt Text (Accessibility & SEO)</label>
+                  <input
+                    type="text"
+                    value={selectedAsset.alt_text}
+                    onChange={(e) => {
+                      const updated = { ...selectedAsset, alt_text: e.target.value };
+                      setSelectedAsset(updated);
+                      updateMediaAsset(selectedAsset.id, { alt_text: e.target.value });
+                    }}
+                    className="w-full px-2.5 py-1.5 text-xs bg-brand-light-grey border border-brand-border-grey focus:border-brand-black"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-brand-black mb-0.5">Category</label>
+                  <select
+                    value={selectedAsset.category}
+                    onChange={(e) => {
+                      const updated = { ...selectedAsset, category: e.target.value as any };
+                      setSelectedAsset(updated);
+                      updateMediaAsset(selectedAsset.id, { category: e.target.value as any });
+                    }}
+                    className="w-full px-2.5 py-1.5 text-xs bg-brand-light-grey border border-brand-border-grey uppercase font-bold focus:border-brand-black"
+                  >
+                    <option value="silo">Silo</option>
+                    <option value="project">Project</option>
+                    <option value="facility">Facility</option>
+                    <option value="client">Client</option>
+                    <option value="general">General</option>
+                  </select>
                 </div>
               </div>
 

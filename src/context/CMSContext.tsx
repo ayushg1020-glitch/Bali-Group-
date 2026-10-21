@@ -60,6 +60,7 @@ interface CMSContextType {
 
   // Media Library
   uploadMediaAsset: (asset: Omit<MediaAsset, 'id' | 'created_at' | 'usage_count' | 'referenced_by'>) => MediaAsset;
+  updateMediaAsset: (id: string, updates: Partial<MediaAsset>) => void;
   deleteMediaAsset: (id: string) => { success: boolean; message?: string };
   replaceMediaAsset: (oldUrl: string, newUrl: string) => void;
   checkMediaUsage: (url: string) => string[];
@@ -417,6 +418,11 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return newAsset;
   };
 
+  const updateMediaAsset = (id: string, updates: Partial<MediaAsset>) => {
+    setMediaAssets(prev => prev.map(m => m.id === id ? { ...m, ...updates } : m));
+    logActivity('update', 'Media Metadata', `Updated metadata for media asset ${id}`);
+  };
+
   const deleteMediaAsset = (id: string): { success: boolean; message?: string } => {
     const target = mediaAssets.find(m => m.id === id);
     if (!target) return { success: false, message: 'Media asset not found.' };
@@ -555,6 +561,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         revertDrafts,
 
         uploadMediaAsset,
+        updateMediaAsset,
         deleteMediaAsset,
         replaceMediaAsset,
         checkMediaUsage,
