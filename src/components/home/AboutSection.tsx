@@ -8,6 +8,8 @@ export const AboutSection: React.FC = () => {
   const { homePageContent } = useCMS();
   const about = homePageContent.about;
 
+  const hasAboutImage = Boolean(about.image_url && about.image_url.trim() !== '');
+
   return (
     <section className="bg-white py-20 lg:py-28 overflow-hidden relative">
       <div className="container-custom">
@@ -20,44 +22,46 @@ export const AboutSection: React.FC = () => {
           className="mb-10"
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className={`grid grid-cols-1 ${hasAboutImage ? 'lg:grid-cols-12 gap-12 lg:gap-16' : 'max-w-4xl'} items-center`}>
           
           {/* Left Column: Large Image with Technical Inset Badge */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative z-10 border border-brand-border-grey shadow-premium group overflow-hidden">
-              <CornerMarks color="border-gray-300 group-hover:border-brand-yellow transition-colors" />
-              <img 
-                src={about.image_url} 
-                alt="Bali Group Grain Storage Silos Manufacturing"
-                className="w-full h-[400px] sm:h-[520px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
-                }}
-              />
-              {/* Subtle yellow architectural accent box */}
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-yellow/15 -z-10 hidden sm:block" />
-            </div>
-
-            {/* Overlaid Experience Seal */}
-            <div className="absolute -top-5 -left-5 bg-brand-black text-white p-6 border-b-4 border-brand-yellow shadow-2xl hidden sm:block z-20">
-              <span className="font-heading font-extrabold text-3xl text-brand-yellow block tracking-tight">25+</span>
-              <span className="text-[11px] font-mono-tech font-bold uppercase tracking-wider text-gray-300 block mt-1">
-                Years of Continuous<br />Engineering Legacy
-              </span>
-            </div>
-
-            {/* Inset verified fact strip */}
-            <div className="mt-4 p-4 bg-brand-light-grey/80 border-l-4 border-brand-yellow flex items-center justify-between border-y border-r border-brand-border-grey">
-              <div>
-                <p className="text-xs font-heading font-bold text-brand-black uppercase tracking-tight">First Japanese Collaboration</p>
-                <p className="text-xs text-brand-text-grey font-mono-tech">June 9, 1993 — Infusing Japanese Quality Standards</p>
+          {hasAboutImage && (
+            <div className="lg:col-span-6 relative">
+              <div className="relative z-10 border border-brand-border-grey shadow-premium group overflow-hidden">
+                <CornerMarks color="border-gray-300 group-hover:border-brand-yellow transition-colors" />
+                <img 
+                  src={about.image_url} 
+                  alt="Bali Group Grain Storage Silos Manufacturing"
+                  className="w-full h-[400px] sm:h-[520px] object-cover object-center group-hover:scale-102 transition-transform duration-700"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+                  }}
+                />
+                {/* Subtle yellow architectural accent box */}
+                <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-yellow/15 -z-10 hidden sm:block" />
               </div>
-              <Award className="w-5 h-5 text-brand-yellow-hover shrink-0" />
+
+              {/* Overlaid Experience Seal */}
+              <div className="absolute -top-5 -left-5 bg-brand-black text-white p-6 border-b-4 border-brand-yellow shadow-2xl hidden sm:block z-20">
+                <span className="font-heading font-extrabold text-3xl text-brand-yellow block tracking-tight">25+</span>
+                <span className="text-[11px] font-mono-tech font-bold uppercase tracking-wider text-gray-300 block mt-1">
+                  Years of Continuous<br />Engineering Legacy
+                </span>
+              </div>
+
+              {/* Inset verified fact strip */}
+              <div className="mt-4 p-4 bg-brand-light-grey/80 border-l-4 border-brand-yellow flex items-center justify-between border-y border-r border-brand-border-grey">
+                <div>
+                  <p className="text-xs font-heading font-bold text-brand-black uppercase tracking-tight">First Japanese Collaboration</p>
+                  <p className="text-xs text-brand-text-grey font-mono-tech">June 9, 1993 — Infusing Japanese Quality Standards</p>
+                </div>
+                <Award className="w-5 h-5 text-brand-yellow-hover shrink-0" />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Right Column: Heading, Description & Highlights */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className={hasAboutImage ? "lg:col-span-6 space-y-6" : "space-y-6"}>
             
             <div className="badge-yellow">
               {about.badge}

@@ -12,9 +12,11 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
   const hero = homePageContent.hero;
 
   // Active hero image: CMS configured or genuine reference silo installation
-  const heroImgSrc = hero.image_url && hero.image_url !== '/images/silos/flat-bottom1.jpg' 
-    ? hero.image_url 
-    : '/images/silos/hero-industrial-silos.jpg';
+  // If explicitly cleared/removed (''), heroImgSrc is null (removes images)
+  const isImageRemoved = hero.image_url === '';
+  const heroImgSrc = isImageRemoved 
+    ? null 
+    : (hero.image_url || '/images/silos/hero-industrial-silos.jpg');
 
   return (
     <section 
@@ -25,106 +27,113 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
           SYMMETRICAL DIAGONAL INDUSTRIAL FRAMING
           Left Image:  Exact same silo asset, inward backslash diagonal (\)
           Right Image: Exact same silo asset, inward forward slash diagonal (/)
+          If removed by admin, these blocks are cleanly omitted
           ========================================================================= */}
 
-      {/* 1. LEFT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD BACKSLASH \) */}
-      <div 
-        className="absolute top-0 left-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        <div 
-          className="relative w-full h-full overflow-hidden"
-          style={{ clipPath: 'polygon(0 0, 75% 0, 100% 100%, 0 100%)' }}
-        >
-          <img 
-            src={heroImgSrc}
-            alt="Bali Group Grain Silos Installation"
-            className="w-full h-full object-cover object-[35%_center] xl:object-[38%_center]"
-            style={{ filter: 'brightness(0.98) contrast(1.04)' }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
-            }}
-          />
-          {/* Subtle ambient gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" />
-          <div className="absolute inset-0 bg-brand-black/5" />
-        </div>
+      {heroImgSrc && (
+        <>
+          {/* 1. LEFT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD BACKSLASH \) */}
+          <div 
+            className="absolute top-0 left-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            <div 
+              className="relative w-full h-full overflow-hidden"
+              style={{ clipPath: 'polygon(0 0, 75% 0, 100% 100%, 0 100%)' }}
+            >
+              <img 
+                src={heroImgSrc}
+                alt="Bali Group Grain Silos Installation"
+                className="w-full h-full object-cover object-[35%_center] xl:object-[38%_center]"
+                style={{ filter: 'brightness(0.98) contrast(1.04)' }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+                }}
+              />
+              {/* Subtle ambient gradient overlay for depth */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-brand-black/5" />
+            </div>
 
-        {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (\) */}
-        <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none z-10" 
-          preserveAspectRatio="none" 
-          viewBox="0 0 100 100"
-        >
-          <line 
-            x1="75" 
-            y1="0" 
-            x2="100" 
-            y2="100" 
-            stroke="#FACC15" 
-            strokeWidth="2.5" 
-            vectorEffect="non-scaling-stroke" 
-          />
-        </svg>
-      </div>
+            {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (\) */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-10" 
+              preserveAspectRatio="none" 
+              viewBox="0 0 100 100"
+            >
+              <line 
+                x1="75" 
+                y1="0" 
+                x2="100" 
+                y2="100" 
+                stroke="#FACC15" 
+                strokeWidth="2.5" 
+                vectorEffect="non-scaling-stroke" 
+              />
+            </svg>
+          </div>
 
-      {/* 2. RIGHT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD FORWARD SLASH /) */}
-      <div 
-        className="absolute top-0 right-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        <div 
-          className="relative w-full h-full overflow-hidden"
-          style={{ clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}
-        >
-          <img 
-            src={heroImgSrc}
-            alt="Bali Group Grain Silo Facility"
-            className="w-full h-full object-cover object-[80%_center] xl:object-[82%_center]"
-            style={{ filter: 'brightness(1.02) contrast(1.02)' }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
-            }}
-          />
-          {/* Subtle ambient gradient overlay for depth */}
-          <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-black/5 to-transparent" />
-          <div className="absolute inset-0 bg-brand-black/5" />
-        </div>
+          {/* 2. RIGHT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD FORWARD SLASH /) */}
+          <div 
+            className="absolute top-0 right-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            <div 
+              className="relative w-full h-full overflow-hidden"
+              style={{ clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}
+            >
+              <img 
+                src={heroImgSrc}
+                alt="Bali Group Grain Silo Facility"
+                className="w-full h-full object-cover object-[80%_center] xl:object-[82%_center]"
+                style={{ filter: 'brightness(1.02) contrast(1.02)' }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+                }}
+              />
+              {/* Subtle ambient gradient overlay for depth */}
+              <div className="absolute inset-0 bg-gradient-to-l from-black/25 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-brand-black/5" />
+            </div>
 
-        {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (/) */}
-        <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none z-10" 
-          preserveAspectRatio="none" 
-          viewBox="0 0 100 100"
-        >
-          <line 
-            x1="25" 
-            y1="0" 
-            x2="0" 
-            y2="100" 
-            stroke="#FACC15" 
-            strokeWidth="2.5" 
-            vectorEffect="non-scaling-stroke" 
-          />
-        </svg>
-      </div>
+            {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (/) */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-10" 
+              preserveAspectRatio="none" 
+              viewBox="0 0 100 100"
+            >
+              <line 
+                x1="25" 
+                y1="0" 
+                x2="0" 
+                y2="100" 
+                stroke="#FACC15" 
+                strokeWidth="2.5" 
+                vectorEffect="non-scaling-stroke" 
+              />
+            </svg>
+          </div>
+        </>
+      )}
 
       {/* MOBILE & TABLET INDUSTRIAL IMAGE BANNER (< 960px: Clean decorative top banner) */}
-      <div 
-        className="min-[960px]:hidden relative w-full h-48 sm:h-56 md:h-64 overflow-hidden select-none shrink-0"
-        aria-hidden="true"
-      >
-        <img 
-          src={heroImgSrc}
-          alt="Bali Group Silos Mobile Preview"
-          className="w-full h-full object-cover object-[center_35%]"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-white" />
-        <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-yellow" />
-      </div>
+      {heroImgSrc && (
+        <div 
+          className="min-[960px]:hidden relative w-full h-48 sm:h-56 md:h-64 overflow-hidden select-none shrink-0"
+          aria-hidden="true"
+        >
+          <img 
+            src={heroImgSrc}
+            alt="Bali Group Silos Mobile Preview"
+            className="w-full h-full object-cover object-[center_35%]"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-white" />
+          <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-yellow" />
+        </div>
+      )}
 
       {/* =========================================================================
           CENTER HERO CONTENT: TRUE HORIZONTAL & VERTICAL CENTERING

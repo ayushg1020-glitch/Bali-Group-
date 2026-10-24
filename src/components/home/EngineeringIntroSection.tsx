@@ -20,6 +20,8 @@ export const EngineeringIntroSection: React.FC = () => {
     ],
   };
 
+  const hasIntroImage = Boolean(intro.image_url && intro.image_url.trim() !== '');
+
   return (
     <section className="bg-white bg-paper-grain relative overflow-hidden py-16 lg:py-24 border-b border-brand-border-grey">
       {/* Subtle Blueprint Grid Accent */}
@@ -38,10 +40,10 @@ export const EngineeringIntroSection: React.FC = () => {
       </div>
 
       <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className={`grid grid-cols-1 ${hasIntroImage ? 'lg:grid-cols-12 gap-12 lg:gap-16' : 'max-w-4xl'} items-center`}>
           
           {/* Left Column: Editorial Headline & Copy */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className={hasIntroImage ? "lg:col-span-6 space-y-6" : "space-y-6"}>
             
             {/* Small Label with Glowing Yellow Detail */}
             <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-brand-yellow/15 border-l-2 border-brand-yellow text-brand-black text-[11px] font-mono-tech font-bold uppercase tracking-widest">
@@ -89,7 +91,8 @@ export const EngineeringIntroSection: React.FC = () => {
           </div>
 
           {/* Right Column: Genuine Installation Photography Showcase */}
-          <div className="lg:col-span-6 relative">
+          {hasIntroImage && (
+            <div className="lg:col-span-6 relative">
             <div className="relative border-2 border-brand-border-grey group overflow-hidden shadow-premium bg-white">
               <CornerMarks color="border-gray-300 group-hover:border-brand-yellow transition-colors" />
               
@@ -123,6 +126,7 @@ export const EngineeringIntroSection: React.FC = () => {
               <MeasurementRuler ticks={20} className="opacity-25" />
             </div>
           </div>
+          )}
 
         </div>
       </div>

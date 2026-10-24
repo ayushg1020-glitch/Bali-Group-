@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Save, UploadCloud, Globe, Check, FileCode, CheckCircle2 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { AdminImagePicker } from '../../components/admin/AdminImagePicker';
 
 export const AdminSEOSettings: React.FC = () => {
   const { seoSettings, updateSEODraft, saveDraft, publishAllChanges } = useCMS();
@@ -129,17 +130,13 @@ export const AdminSEOSettings: React.FC = () => {
               />
             </div>
 
-            <div>
-              <label className="block font-bold text-brand-black mb-1">
-                OpenGraph Share Image URL
-              </label>
-              <input
-                type="text"
+              <AdminImagePicker
+                label="OpenGraph Share Image (Social Preview Card)"
                 value={seoSettings.og_image}
-                onChange={(e) => updateSEODraft({ og_image: e.target.value })}
-                className="w-full px-3 py-2 bg-brand-light-grey border border-brand-border-grey"
+                onChange={(newUrl) => updateSEODraft({ og_image: newUrl })}
+                defaultImage="https://images.unsplash.com/photo-1590496793929-36417d3117de?auto=format&fit=crop&w=1200&q=80"
+                helperText="Displayed when your website is shared on LinkedIn, WhatsApp, Facebook, and Twitter/X (Recommended: 1200×630px)."
               />
-            </div>
 
             <div>
               <label className="block font-bold text-brand-black mb-1">

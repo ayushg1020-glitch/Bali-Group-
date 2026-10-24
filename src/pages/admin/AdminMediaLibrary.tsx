@@ -57,17 +57,23 @@ export const AdminMediaLibrary: React.FC = () => {
         return;
       }
 
-      // Create a local blob URL for immediate preview and testing
-      const url = URL.createObjectURL(file);
-      uploadMediaAsset({
-        filename: file.name,
-        title: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
-        alt_text: `Bali Group ${file.name}`,
-        url,
-        size_bytes: file.size,
-        mime_type: file.type,
-        category: 'general',
-      });
+      // Read as persistent Base64 Data URL so it survives page reloads in localStorage
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const url = event.target?.result as string;
+        if (url) {
+          uploadMediaAsset({
+            filename: file.name,
+            title: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+            alt_text: `Bali Group ${file.name}`,
+            url,
+            size_bytes: file.size,
+            mime_type: file.type,
+            category: 'general',
+          });
+        }
+      };
+      reader.readAsDataURL(file);
     });
 
     e.target.value = '';

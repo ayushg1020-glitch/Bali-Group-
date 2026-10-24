@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { SolutionItem } from '../../types';
+import { AdminImagePicker } from '../../components/admin/AdminImagePicker';
+import { AdminGalleryPicker } from '../../components/admin/AdminGalleryPicker';
 
 export const AdminProductsManager: React.FC = () => {
   const { solutions, updateSolutionDraft, addSolutionDraft, deleteSolutionDraft, saveDraft, publishAllChanges } = useCMS();
@@ -269,15 +271,24 @@ export const AdminProductsManager: React.FC = () => {
                 />
               </div>
 
-              <div>
-                <label className="block font-bold text-brand-black mb-1">Cover Image URL</label>
-                <input
-                  type="text"
-                  value={editingSolution.image_url}
-                  onChange={(e) => setEditingSolution({ ...editingSolution, image_url: e.target.value })}
-                  className="w-full px-3 py-2 bg-brand-light-grey border border-brand-border-grey"
-                />
-              </div>
+              {/* Product Cover Image (Changeable & Removable) */}
+              <AdminImagePicker
+                label="Product System Cover Photograph"
+                description="Primary thumbnail and banner image for this silo or equipment solution."
+                value={editingSolution.image_url}
+                onChange={(newUrl) => setEditingSolution({ ...editingSolution, image_url: newUrl })}
+                defaultFallback="/images/silos/flat-bottom1.jpg"
+                category="silo"
+                aspectRatioLabel="4:3 Product Shot"
+              />
+
+              {/* Product Gallery Images (Add / Remove Any) */}
+              <AdminGalleryPicker
+                label="Product Technical Gallery Images"
+                description="Additional blueprint drawings, interior hopper views, or field installation photos."
+                images={editingSolution.gallery_images || []}
+                onChange={(newImages) => setEditingSolution({ ...editingSolution, gallery_images: newImages })}
+              />
 
               <div className="flex items-center gap-6 pt-2">
                 <label className="flex items-center gap-2 cursor-pointer">

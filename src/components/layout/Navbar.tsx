@@ -121,11 +121,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuoteModal }) => {
           {/* Logo */}
           <Link to="/" className="flex items-center group py-0.5" aria-label="Bali Group Home">
             <img 
-              src="/images/logo-bali-group.png" 
+              src={companySettings.logo_url || '/images/logo-bali-group.png'} 
               alt="Bali Group Grain Silos & EPC"
               className="h-11 sm:h-12 md:h-14 lg:h-[54px] w-auto object-contain transition-transform duration-200 group-hover:scale-102"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = companySettings.logo_url || '/images/logo.png';
+                (e.target as HTMLImageElement).src = '/images/logo-bali-group.png';
               }}
             />
           </Link>

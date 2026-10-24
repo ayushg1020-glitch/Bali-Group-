@@ -14,6 +14,7 @@ import {
   Box
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { AdminImagePicker } from '../../components/admin/AdminImagePicker';
 
 export const AdminHomepageEditor: React.FC = () => {
   const { 
@@ -289,42 +290,16 @@ export const AdminHomepageEditor: React.FC = () => {
               </div>
             </div>
 
-            {/* Hero Image Selector from Media Assets */}
-            <div className="pt-2">
-              <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-2">
-                Hero Background Photograph (Select from Media Assets)
-              </label>
-              
-              <div className="flex items-center gap-4 mb-3">
-                <img 
-                  src={hero.image_url} 
-                  alt="Hero Preview" 
-                  className="h-20 w-32 object-cover border-2 border-brand-border-grey shadow-xs" 
-                />
-                <input
-                  type="text"
-                  value={hero.image_url}
-                  onChange={(e) => handleHeroChange('image_url', e.target.value)}
-                  className="flex-1 px-3.5 py-2 text-xs bg-brand-light-grey border border-brand-border-grey"
-                  placeholder="/images/silos/flat-bottom1.jpg"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {mediaAssets.filter(m => m.category === 'silo' || m.category === 'project').map(m => (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => handleHeroChange('image_url', m.url)}
-                    className={`h-14 w-20 overflow-hidden border-2 transition-all ${
-                      hero.image_url === m.url ? 'border-brand-yellow shadow-md scale-105' : 'border-gray-200 hover:border-black'
-                    }`}
-                  >
-                    <img src={m.url} alt={m.title} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Hero Silo & Background Image (Changeable & Removable) */}
+            <AdminImagePicker
+              label="Hero Silo & Background Photograph"
+              description="Displays as the dual symmetrical framing grain silos and background on the homepage. Change, upload a new image, select from media library, or remove."
+              value={hero.image_url}
+              onChange={(newUrl) => handleHeroChange('image_url', newUrl)}
+              defaultFallback="/images/silos/hero-industrial-silos.jpg"
+              category="silo"
+              aspectRatioLabel="Landscape / Silo"
+            />
 
             <div>
               <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
@@ -411,24 +386,16 @@ export const AdminHomepageEditor: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
-                  Feature Image URL
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={intro.image_url}
-                    onChange={(e) => handleIntroChange('image_url', e.target.value)}
-                    className="flex-1 text-xs p-2.5 border border-brand-border-grey focus:border-brand-black focus:outline-none"
-                  />
-                </div>
-                {intro.image_url && (
-                  <div className="mt-3 w-48 h-28 border border-brand-border-grey overflow-hidden">
-                    <img src={intro.image_url} alt="Intro Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
+              {/* Feature Image (Changeable & Removable) */}
+              <AdminImagePicker
+                label="Engineering Intro Feature Photograph"
+                description="Right-hand genuine silo installation showcase photograph in the engineering introduction section."
+                value={intro.image_url}
+                onChange={(newUrl) => handleIntroChange('image_url', newUrl)}
+                defaultFallback="/images/silos/flat-bottom2.jpg"
+                category="silo"
+                aspectRatioLabel="4:3 Landscape"
+              />
             </div>
           </div>
         )}
@@ -574,17 +541,16 @@ export const AdminHomepageEditor: React.FC = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
-                About Section Photograph URL
-              </label>
-              <input
-                type="text"
-                value={about.image_url}
-                onChange={(e) => handleAboutChange('image_url', e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm bg-brand-light-grey border border-brand-border-grey focus:border-brand-black focus:outline-none"
-              />
-            </div>
+            {/* About Section Photograph (Changeable & Removable) */}
+            <AdminImagePicker
+              label="Section 03: About Heritage Photograph"
+              description="Left-column industrial grain silo installation photograph with 25+ years experience badge."
+              value={about.image_url}
+              onChange={(newUrl) => handleAboutChange('image_url', newUrl)}
+              defaultFallback="/images/silos/flat-bottom1.jpg"
+              category="silo"
+              aspectRatioLabel="3:4 Portrait / Tall"
+            />
           </div>
         )}
 
@@ -622,15 +588,16 @@ export const AdminHomepageEditor: React.FC = () => {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-[11px] font-bold text-brand-black mb-0.5">Image URL</label>
-                    <input
-                      type="text"
-                      value={fac.image_url}
-                      onChange={(e) => handleMfgFacilityChange(idx, 'image_url', e.target.value)}
-                      className="w-full px-3 py-1.5 text-xs bg-white border border-brand-border-grey"
-                    />
-                  </div>
+                  {/* Manufacturing Facility Stage Photograph (Changeable & Removable) */}
+                  <AdminImagePicker
+                    label={`Stage 0${idx + 1} Editorial Photograph`}
+                    description="High-resolution industrial manufacturing or fabrication bay photograph."
+                    value={fac.image_url}
+                    onChange={(newUrl) => handleMfgFacilityChange(idx, 'image_url', newUrl)}
+                    defaultFallback="/images/silos/flat-bottom1.jpg"
+                    category="facility"
+                    aspectRatioLabel="16:9 Landscape"
+                  />
                 </div>
               ))}
             </div>

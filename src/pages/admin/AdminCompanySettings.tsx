@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Save, UploadCloud, Check, Building2, Phone, Mail, MapPin, Globe } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
+import { AdminImagePicker } from '../../components/admin/AdminImagePicker';
 
 export const AdminCompanySettings: React.FC = () => {
   const { companySettings, updateCompanySettingsDraft, saveDraft, publishAllChanges } = useCMS();
@@ -102,6 +103,38 @@ export const AdminCompanySettings: React.FC = () => {
               value={companySettings.intro}
               onChange={(e) => updateCompanySettingsDraft({ intro: e.target.value })}
               className="w-full px-3 py-2 bg-brand-light-grey border border-brand-border-grey leading-relaxed"
+            />
+          </div>
+        </div>
+
+        {/* Corporate Logos & Visual Identity */}
+        <div className="space-y-4">
+          <h3 className="font-heading font-bold text-base text-brand-black border-b border-brand-light-grey pb-2">
+            Corporate Logos & Brand Assets
+          </h3>
+          <p className="text-xs text-brand-text-grey">
+            Update or remove official company emblems. Changes appear across header navigation, footer, and email signatures.
+          </p>
+
+          <div className="space-y-4">
+            <AdminImagePicker
+              label="Primary Header Brand Logo"
+              description="Displays prominently on the top navigation bar of every page."
+              value={companySettings.logo_url}
+              onChange={(newUrl) => updateCompanySettingsDraft({ logo_url: newUrl })}
+              defaultFallback="/images/logo-bali-group.png"
+              category="general"
+              aspectRatioLabel="Horizontal Logo"
+            />
+
+            <AdminImagePicker
+              label="Footer Corporate Logo"
+              description="Displays on the dark footer strip. If removed or empty, falls back to the primary logo."
+              value={companySettings.footer_logo_url}
+              onChange={(newUrl) => updateCompanySettingsDraft({ footer_logo_url: newUrl })}
+              defaultFallback="/images/logo-bali-group.png"
+              category="general"
+              aspectRatioLabel="Horizontal Logo"
             />
           </div>
         </div>

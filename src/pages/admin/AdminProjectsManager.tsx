@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 import { ProjectItem } from '../../types';
+import { AdminImagePicker } from '../../components/admin/AdminImagePicker';
+import { AdminGalleryPicker } from '../../components/admin/AdminGalleryPicker';
 
 export const AdminProjectsManager: React.FC = () => {
   const { projects, updateProjectDraft, addProjectDraft, deleteProjectDraft } = useCMS();
@@ -293,15 +295,24 @@ export const AdminProjectsManager: React.FC = () => {
                 </div>
               </div>
 
-              <div>
-                <label className="block font-bold text-brand-black mb-1">Cover Photograph URL</label>
-                <input
-                  type="text"
-                  value={editingProject.cover_image}
-                  onChange={(e) => setEditingProject({ ...editingProject, cover_image: e.target.value })}
-                  className="w-full px-3 py-2 bg-brand-light-grey border border-brand-border-grey"
-                />
-              </div>
+              {/* Project Cover Photograph (Changeable & Removable) */}
+              <AdminImagePicker
+                label="Project Cover Photograph"
+                description="Primary verified project installation photograph shown on the portfolio and project detail pages."
+                value={editingProject.cover_image}
+                onChange={(newUrl) => setEditingProject({ ...editingProject, cover_image: newUrl })}
+                defaultFallback="/images/silos/flat-bottom1.jpg"
+                category="project"
+                aspectRatioLabel="16:9 Landscape"
+              />
+
+              {/* Project Gallery Images (Add / Remove Any) */}
+              <AdminGalleryPicker
+                label="Site Installation & Inspection Gallery"
+                description="Additional on-site commissioning and aerial drone photographs."
+                images={editingProject.gallery_images || []}
+                onChange={(newImages) => setEditingProject({ ...editingProject, gallery_images: newImages })}
+              />
 
               <div>
                 <label className="block font-bold text-brand-black mb-1">Project Description & Engineering Narrative</label>
