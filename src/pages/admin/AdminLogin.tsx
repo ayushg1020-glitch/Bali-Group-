@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Info } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
 
@@ -14,7 +14,7 @@ export const AdminLogin: React.FC = () => {
 
   // If already logged in, redirect to overview
   if (currentUser) {
-    navigate('/admin/overview');
+    return <Navigate to="/admin/overview" replace />;
   }
 
   const handleLogin = async (e: React.FormEvent) => {

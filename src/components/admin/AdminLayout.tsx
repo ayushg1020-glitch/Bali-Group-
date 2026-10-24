@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Home, 
@@ -44,8 +44,7 @@ export const AdminLayout: React.FC = () => {
 
   // Protected route check
   if (!currentUser) {
-    navigate('/admin/login');
-    return null;
+    return <Navigate to="/admin/login" replace />;
   }
 
   const unreadEnquiriesCount = enquiries.filter(e => !e.is_read).length;
