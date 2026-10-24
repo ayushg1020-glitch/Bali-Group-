@@ -1,36 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  ArrowRight, 
-  ShieldCheck, 
-  Layers, 
-  Award, 
-  ChevronDown, 
-  HardHat, 
-  CheckCircle2, 
-  Wind 
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useCMS } from '../../context/CMSContext';
-import { CornerMarks } from '../common/IndustrialGraphics';
 
 interface HeroSectionProps {
   onOpenQuoteModal?: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenQuoteModal }) => {
+export const HeroSection: React.FC<HeroSectionProps> = () => {
   const { homePageContent } = useCMS();
   const hero = homePageContent.hero;
 
-  const scrollToNextSection = () => {
-    const nextElem = document.getElementById('editorial-intro') || document.querySelector('section:nth-of-type(2)');
-    if (nextElem) {
-      nextElem.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollBy({ top: 650, behavior: 'smooth' });
-    }
-  };
-
-  // Determine active hero image (CMS configured or high-impact reference facility)
+  // Active hero image: CMS configured or genuine reference silo installation
   const heroImgSrc = hero.image_url && hero.image_url !== '/images/silos/flat-bottom1.jpg' 
     ? hero.image_url 
     : '/images/silos/hero-industrial-silos.jpg';
@@ -38,307 +19,162 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenQuoteModal }) =>
   return (
     <section 
       aria-label="Hero Section"
-      className="relative w-full min-h-[660px] lg:h-[720px] xl:h-[750px] bg-[#FFFFFF] overflow-hidden flex flex-col justify-between"
+      className="relative w-full min-h-[640px] lg:h-[720px] xl:h-[760px] bg-[#FFFFFF] overflow-hidden flex flex-col justify-center border-b border-brand-border-grey"
     >
       {/* =========================================================================
-          BACKGROUND LAYER: TWO-ZONE COMPOSITION
-          Left: Pure White + Engineering Blueprint Grid
-          Right: Large Silo Facility Photography with Angled Diagonal Transition
+          SYMMETRICAL DIAGONAL INDUSTRIAL FRAMING
+          Left Image:  Exact same silo asset, inward backslash diagonal (\)
+          Right Image: Exact same silo asset, inward forward slash diagonal (/)
           ========================================================================= */}
-      
-      {/* LEFT ZONE: Engineering Blueprint Graphics */}
-      <div className="absolute inset-0 z-0 bg-[#FFFFFF]">
-        {/* Subtle Architectural Blueprint Grid */}
-        <div className="absolute inset-0 bg-blueprint-grid opacity-55 pointer-events-none" />
 
-        {/* Faint Architectural Silo CAD Wireframe Watermark */}
-        <svg 
-          className="absolute left-[-20px] bottom-[-10px] w-[500px] h-[500px] text-neutral-900 opacity-[0.035] pointer-events-none hidden lg:block"
-          viewBox="0 0 400 400" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="1.2"
+      {/* 1. LEFT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD BACKSLASH \) */}
+      <div 
+        className="absolute top-0 left-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        <div 
+          className="relative w-full h-full overflow-hidden"
+          style={{ clipPath: 'polygon(0 0, 75% 0, 100% 100%, 0 100%)' }}
         >
-          <rect x="80" y="140" width="240" height="230" rx="4" />
-          <path d="M 80 140 L 200 40 L 320 140 Z" />
-          <path d="M 120 140 L 200 40 L 280 140" strokeDasharray="4 4" />
-          {Array.from({ length: 9 }).map((_, i) => (
-            <line key={i} x1="80" y1={170 + i * 22} x2="320" y2={170 + i * 22} />
-          ))}
-          <line x1="130" y1="140" x2="130" y2="370" strokeWidth="2" />
-          <line x1="180" y1="140" x2="180" y2="370" strokeWidth="2" />
-          <line x1="220" y1="140" x2="220" y2="370" strokeWidth="2" />
-          <line x1="270" y1="140" x2="270" y2="370" strokeWidth="2" />
-          <line x1="200" y1="90" x2="200" y2="370" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="200" cy="40" r="12" stroke="currentColor" />
-        </svg>
+          <img 
+            src={heroImgSrc}
+            alt="Bali Group Grain Silos Installation"
+            className="w-full h-full object-cover object-[35%_center] xl:object-[38%_center]"
+            style={{ filter: 'brightness(0.98) contrast(1.04)' }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+            }}
+          />
+          {/* Subtle ambient gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-brand-black/5" />
+        </div>
 
-        {/* Thin Architectural Yellow Accent Line on Left Margin */}
-        <div className="absolute top-1/4 left-0 w-1.5 h-16 bg-brand-yellow hidden lg:block" />
+        {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (\) */}
+        <svg 
+          className="absolute inset-0 w-full h-full pointer-events-none z-10" 
+          preserveAspectRatio="none" 
+          viewBox="0 0 100 100"
+        >
+          <line 
+            x1="75" 
+            y1="0" 
+            x2="100" 
+            y2="100" 
+            stroke="#FACC15" 
+            strokeWidth="2.5" 
+            vectorEffect="non-scaling-stroke" 
+          />
+        </svg>
       </div>
 
-      {/* RIGHT ZONE: Large Cinematic Silo Facility Photograph with Angled Transition */}
+      {/* 2. RIGHT INDUSTRIAL SILO IMAGE (DESKTOP & LAPTOP >= 960px: INWARD FORWARD SLASH /) */}
       <div 
-        className="absolute top-0 right-0 bottom-0 w-full lg:w-[54%] xl:w-[53%] z-0 overflow-hidden lg:[clip-path:polygon(20%_0,100%_0,100%_100%,0%_100%)] pointer-events-none drop-shadow-xl"
+        className="absolute top-0 right-0 bottom-0 w-[16vw] lg:w-[18vw] xl:w-[25vw] 2xl:w-[29vw] hidden min-[960px]:block z-0 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        <div 
+          className="relative w-full h-full overflow-hidden"
+          style={{ clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0 100%)' }}
+        >
+          <img 
+            src={heroImgSrc}
+            alt="Bali Group Grain Silo Facility"
+            className="w-full h-full object-cover object-[80%_center] xl:object-[82%_center]"
+            style={{ filter: 'brightness(1.02) contrast(1.02)' }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
+            }}
+          />
+          {/* Subtle ambient gradient overlay for depth */}
+          <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-black/5 to-transparent" />
+          <div className="absolute inset-0 bg-brand-black/5" />
+        </div>
+
+        {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (/) */}
+        <svg 
+          className="absolute inset-0 w-full h-full pointer-events-none z-10" 
+          preserveAspectRatio="none" 
+          viewBox="0 0 100 100"
+        >
+          <line 
+            x1="25" 
+            y1="0" 
+            x2="0" 
+            y2="100" 
+            stroke="#FACC15" 
+            strokeWidth="2.5" 
+            vectorEffect="non-scaling-stroke" 
+          />
+        </svg>
+      </div>
+
+      {/* MOBILE & TABLET INDUSTRIAL IMAGE BANNER (< 960px: Clean decorative top banner) */}
+      <div 
+        className="min-[960px]:hidden relative w-full h-48 sm:h-56 md:h-64 overflow-hidden select-none shrink-0"
+        aria-hidden="true"
       >
         <img 
           src={heroImgSrc}
-          alt="Bali Group Grain Storage Silo Facility"
-          className="w-full h-full object-cover object-[center_35%] lg:object-[center_28%] transition-transform duration-1000 ease-out"
-          style={{ filter: 'brightness(1.02) contrast(1.02)' }}
+          alt="Bali Group Silos Mobile Preview"
+          className="w-full h-full object-cover object-[center_35%]"
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/images/silos/flat-bottom1.jpg';
           }}
         />
-
-        {/* Soft Ambient Bleed on the Angled Edge */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/10 hidden lg:block" />
-
-        {/* Mobile/Tablet Overlay: Solid white on top half smoothly revealing photo at the bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/95 55% to-white/30 lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-white" />
+        <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-yellow" />
       </div>
 
       {/* =========================================================================
-          MAIN HERO CONTENT (UPPER/MIDDLE)
+          CENTER HERO CONTENT: TRUE HORIZONTAL & VERTICAL CENTERING
           ========================================================================= */}
-      <div className="container-custom relative z-10 w-full pt-10 sm:pt-14 lg:pt-16 pb-4 sm:pb-6 flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-5 sm:px-8 lg:px-10 py-10 sm:py-12 lg:py-16 flex flex-col items-center justify-center text-center">
+        
+        {/* 1. EYEBROW LABEL */}
+        <div className="inline-flex items-center gap-2 mb-5 sm:mb-6 px-3.5 py-1.5 bg-neutral-100 border border-neutral-200/90 text-brand-black text-[11px] sm:text-xs font-mono-tech font-extrabold uppercase tracking-[0.24em] select-none">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow shrink-0" />
+          <span>GRAIN STORAGE SOLUTIONS</span>
+        </div>
+
+        {/* 2. MAIN HEADLINE */}
+        <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[4.25rem] font-heading font-extrabold text-brand-black tracking-tight leading-[1.06] select-text">
+          Engineering the<br />
+          Future of<br />
+          <span className="text-amber-500 inline-block drop-shadow-[0_1px_1px_rgba(0,0,0,0.06)]">
+            Grain Storage.
+          </span>
+        </h1>
+
+        {/* 3. SUPPORTING DESCRIPTION */}
+        <p className="mt-5 sm:mt-6 text-neutral-600 text-base sm:text-lg xl:text-xl font-normal leading-relaxed max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto select-text">
+          {hero.subheadline || 'Precision-engineered storage, high-throughput material handling, and turnkey industrial installations built for long-term performance and food security.'}
+        </p>
+
+        {/* 4. PRIMARY CALL-TO-ACTION BUTTONS */}
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto">
           
-          {/* LEFT EDITORIAL COLUMN (~46-50% width on Desktop) */}
-          <div className="lg:col-span-7 xl:col-span-6 space-y-5 sm:space-y-6">
-            
-            {/* 1. SECTION NUMBER AND EYEBROW */}
-            <div className="flex items-start gap-3.5">
-              {/* "01" with Thin Vertical Yellow Line */}
-              <div className="flex flex-col items-center select-none pt-0.5">
-                <span className="text-sm font-extrabold font-heading text-brand-black tracking-wider leading-none">
-                  01
-                </span>
-                <div className="w-[2px] h-5 bg-brand-yellow mt-1.5" />
-              </div>
+          {/* PRIMARY: EXPLORE SOLUTIONS */}
+          <Link
+            to={hero.primary_btn_link || '/solutions'}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-brand-yellow text-brand-black hover:bg-yellow-400 font-heading font-bold text-xs uppercase tracking-wider rounded-none transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 group cursor-pointer shrink-0"
+          >
+            <span>EXPLORE SOLUTIONS</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
 
-              {/* "GRAIN STORAGE SOLUTIONS" with Thin Yellow Underline */}
-              <div className="pt-0.5">
-                <span className="text-xs font-heading font-extrabold text-brand-black uppercase tracking-[0.2em] border-b-2 border-brand-yellow pb-0.5 inline-block">
-                  GRAIN STORAGE SOLUTIONS
-                </span>
-              </div>
-            </div>
-
-            {/* 2. MAIN HEADLINE */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[4.1rem] font-heading font-extrabold text-brand-black tracking-tight leading-[1.04]">
-              Engineering the<br />
-              Future of<br />
-              <span className="text-amber-500 inline-block drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)]">
-                Grain Storage.
-              </span>
-            </h1>
-
-            {/* 3. SUPPORTING DESCRIPTION */}
-            <p className="text-neutral-600 text-base sm:text-lg leading-relaxed max-w-[500px] font-normal">
-              {hero.subheadline || 'Precision-engineered storage, high-throughput material handling, and turnkey industrial installations built for long-term performance and food security.'}
-            </p>
-
-            {/* 4. THREE CTA BUTTONS */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-3.5 pt-1">
-              
-              {/* PRIMARY: EXPLORE SOLUTIONS → */}
-              <Link
-                to={hero.primary_btn_link || '/solutions'}
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-3.5 bg-brand-yellow text-brand-black hover:bg-yellow-400 font-heading font-bold text-xs uppercase tracking-wider rounded-none transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 shrink-0"
-              >
-                <span>EXPLORE SOLUTIONS</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-
-              {/* SECONDARY: VIEW PROJECTS → */}
-              <Link
-                to={hero.secondary_btn_link || '/projects'}
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-3.5 bg-white hover:bg-brand-black text-brand-black hover:text-white border-2 border-brand-black font-heading font-bold text-xs uppercase tracking-wider rounded-none transition-all duration-300 cursor-pointer shadow-xs hover:-translate-y-0.5 active:translate-y-0 shrink-0"
-              >
-                <span>VIEW PROJECTS</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              {/* TERTIARY: QUICK TECHNICAL RFQ → */}
-              <button
-                onClick={onOpenQuoteModal}
-                className="inline-flex items-center gap-1.5 py-2 px-1 text-brand-black hover:text-neutral-800 font-heading font-bold text-xs uppercase tracking-wider border-b-2 border-brand-yellow hover:border-brand-black transition-all duration-200 group cursor-pointer shrink-0"
-              >
-                <span>QUICK TECHNICAL RFQ</span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-
-            </div>
-
-          </div>
-
-          {/* RIGHT COLUMN (DESKTOP): FLOATING TECHNICAL PANEL */}
-          <div className="lg:col-span-5 xl:col-span-6 relative hidden lg:flex justify-end items-center pr-2 xl:pr-6">
-            
-            <aside 
-              aria-label="Technical Highlights"
-              className="relative w-[300px] xl:w-[325px] bg-[#1A1A1A] text-white border border-neutral-700/80 shadow-2xl p-5 sm:p-6 group select-text"
-            >
-              <CornerMarks color="border-neutral-600 group-hover:border-brand-yellow transition-colors" />
-
-              {/* Panel Header */}
-              <div className="flex items-center justify-between border-b border-neutral-700/80 pb-3 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand-yellow animate-pulse" />
-                  <span className="text-[11px] font-mono-tech uppercase tracking-widest text-brand-yellow font-bold">
-                    // TECHNICAL HIGHLIGHTS
-                  </span>
-                </div>
-                <span className="text-[9px] font-mono-tech text-neutral-400 uppercase tracking-widest">
-                  BALI-SPEC
-                </span>
-              </div>
-
-              {/* Three Highlighted Technical Attributes */}
-              <div className="space-y-3.5">
-                
-                {/* 1. Corrugation Specification */}
-                <div className="flex items-start gap-3 border-b border-neutral-800 pb-3">
-                  <div className="w-8 h-8 bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0 group-hover:scale-105 transition-transform">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-white text-xs font-heading font-bold uppercase tracking-tight">
-                      2.66" SINE PROFILE
-                    </p>
-                    <p className="text-neutral-400 text-[11px] font-mono-tech mt-0.5 leading-snug">
-                      Max Hoop Stress Resistance
-                    </p>
-                  </div>
-                </div>
-
-                {/* 2. Galvanized Steel Specification */}
-                <div className="flex items-start gap-3 border-b border-neutral-800 pb-3">
-                  <div className="w-8 h-8 bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0 group-hover:scale-105 transition-transform">
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-white text-xs font-heading font-bold uppercase tracking-tight">
-                      UP TO 600 GSM
-                    </p>
-                    <p className="text-neutral-400 text-[11px] font-mono-tech mt-0.5 leading-snug">
-                      Heavy Zinc Coating ASTM A653
-                    </p>
-                  </div>
-                </div>
-
-                {/* 3. Installed Storage Capacity */}
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0 group-hover:scale-105 transition-transform">
-                    <Award className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-white text-xs font-heading font-bold uppercase tracking-tight">
-                      4.5M+ TONNES
-                    </p>
-                    <p className="text-neutral-400 text-[11px] font-mono-tech mt-0.5 leading-snug">
-                      Installed Global Storage Capacity
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Panel Footer */}
-              <div className="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between text-[10px] font-mono-tech text-neutral-400">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-brand-yellow" />
-                  CHANDIGARH FACILITY
-                </span>
-                <span className="text-brand-yellow font-bold">100% IN-HOUSE EPC</span>
-              </div>
-            </aside>
-
-          </div>
+          {/* SECONDARY: VIEW PROJECTS */}
+          <Link
+            to={hero.secondary_btn_link || '/projects'}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-white hover:bg-brand-black text-brand-black hover:text-white border-2 border-brand-black font-heading font-bold text-xs uppercase tracking-wider rounded-none transition-all duration-200 shadow-xs hover:-translate-y-0.5 active:translate-y-0 group cursor-pointer shrink-0"
+          >
+            <span>VIEW PROJECTS</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
 
         </div>
+
       </div>
-
-      {/* =========================================================================
-          LOWER SECTION: BOTTOM TECHNICAL SPECIFICATION STRIP & SCROLL INDICATOR
-          ========================================================================= */}
-      <div className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-4">
-          
-          {/* THE DISTINCTIVE BLACK ANGULAR SPECIFICATION STRIP */}
-          <div 
-            className="w-full lg:w-[66%] xl:w-[62%] bg-[#111111] text-white border-t-2 border-brand-yellow shadow-2xl py-3.5 px-5 sm:px-6 lg:px-8 lg:[clip-path:polygon(0_0,calc(100%-34px)_0,100%_100%,0_100%)] select-text"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 divide-y sm:divide-y-0 sm:divide-x divide-neutral-800">
-              
-              {/* Column 1: Metallurgy */}
-              <div className="flex items-center gap-3 pt-2 sm:pt-0">
-                <div className="w-8 h-8 rounded-none bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0">
-                  <HardHat className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-white text-xs font-heading font-extrabold tracking-tight uppercase">
-                    GRADE 350 / 450 MPa
-                  </p>
-                  <p className="text-neutral-400 text-[10px] sm:text-[11px] font-mono-tech mt-0.5">
-                    High-Tensile Structural Steel
-                  </p>
-                </div>
-              </div>
-
-              {/* Column 2: Compliance */}
-              <div className="flex items-center gap-3 pt-2 sm:pt-0 sm:pl-5">
-                <div className="w-8 h-8 rounded-none bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0">
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-white text-xs font-heading font-extrabold tracking-tight uppercase">
-                    EN 1991-4 • DIN 1055
-                  </p>
-                  <p className="text-neutral-400 text-[10px] sm:text-[11px] font-mono-tech mt-0.5">
-                    Eurocode & Global Standards
-                  </p>
-                </div>
-              </div>
-
-              {/* Column 3: Wind & Seismic */}
-              <div className="flex items-center gap-3 pt-2 sm:pt-0 sm:pl-5">
-                <div className="w-8 h-8 rounded-none bg-brand-yellow/15 border border-brand-yellow/40 flex items-center justify-center text-brand-yellow shrink-0">
-                  <Wind className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-brand-yellow text-xs font-heading font-extrabold tracking-tight uppercase">
-                    ZONE IV • 200 KM/H
-                  </p>
-                  <p className="text-neutral-400 text-[10px] sm:text-[11px] font-mono-tech mt-0.5">
-                    Seismic & Wind Resistance
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* MINIMAL SCROLL DOWN INDICATOR */}
-          <button
-            onClick={scrollToNextSection}
-            className="hidden lg:inline-flex items-center gap-2.5 pb-3 text-neutral-400 hover:text-brand-black transition-colors duration-200 group cursor-pointer"
-            aria-label="Scroll down to next section"
-          >
-            <span className="text-[10px] font-mono-tech uppercase tracking-[0.2em] font-semibold group-hover:text-brand-black">
-              SCROLL DOWN
-            </span>
-            <div className="w-6 h-6 rounded-full border border-neutral-400/80 group-hover:border-brand-black flex items-center justify-center transition-all group-hover:translate-y-0.5">
-              <ChevronDown className="w-3.5 h-3.5 text-brand-yellow group-hover:text-brand-black animate-bounce" />
-            </div>
-          </button>
-
-        </div>
-      </div>
-
-      {/* Hairline Architectural Bottom Border */}
-      <div className="w-full h-px bg-neutral-200/80" />
     </section>
   );
 };

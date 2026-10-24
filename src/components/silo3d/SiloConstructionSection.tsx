@@ -231,8 +231,8 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
           <span>// AXIS: X0.00 Y4.90 Z0.00 [NORMALIZED]</span>
         </div>
 
-        {/* Full-Bleed 3D WebGL Silo Canvas - Open Environment, No Framing Box, Whole Structure Visible */}
-        <div className="absolute inset-x-0 bottom-0 top-20 sm:top-24 z-0 pointer-events-auto">
+        {/* Full-Bleed 3D WebGL Silo Canvas - Dedicated upper zone on mobile so narrative card never overlaps, full bleed on desktop */}
+        <div className="relative lg:absolute w-full h-[36vh] sm:h-[42vh] lg:h-auto lg:inset-x-0 lg:bottom-0 lg:top-20 xl:top-24 z-0 pointer-events-auto shrink-0">
           <SiloCanvas
             progress={progress}
             isReducedMotion={false}
@@ -240,102 +240,102 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
           />
         </div>
 
-        {/* Floating Narrative Content Area (Left docked over the seamless 3D scene, ZERO overlap with centered silo) */}
-        <div className="relative z-10 flex-1 w-full px-6 sm:px-10 lg:px-14 xl:px-16 flex items-center min-h-0 pointer-events-none">
+        {/* Floating Narrative Content Area (Left docked on desktop, bottom docked on mobile with ZERO overlap with silo) */}
+        <div className="relative z-10 flex-1 w-full px-4 sm:px-8 lg:px-14 xl:px-16 flex items-end lg:items-center justify-center lg:justify-start min-h-0 pointer-events-none pb-1 sm:pb-2 lg:pb-0">
           {/* Left Column: Stage Headings, Engineering Explanations & Specs */}
-          <div className="w-full max-w-[340px] sm:max-w-[360px] lg:max-w-[380px] flex flex-col justify-center pointer-events-auto my-auto space-y-3">
+          <div className="w-full max-w-sm sm:max-w-[360px] lg:max-w-[380px] flex flex-col justify-center pointer-events-auto my-auto space-y-2 sm:space-y-3">
             {progress < 0.9 ? (
               <div
                 key={currentStageIndex}
-                className="relative bg-white/95 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-gray-200/90 shadow-xl transition-all duration-300 space-y-3.5 group"
+                className="relative bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-5 lg:p-6 border border-gray-200/90 shadow-lg lg:shadow-xl transition-all duration-300 space-y-2 sm:space-y-3.5 group"
               >
                 <CornerMarks color="border-gray-300 group-hover:border-brand-yellow/70 transition-colors" />
 
                 {/* Stage Badge & Number */}
                 <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-brand-yellow animate-pulse" />
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2">
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-brand-yellow animate-pulse" />
+                    <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-gray-500">
                       Phase {activeStage?.number || `0${currentStageIndex + 1}`}
                     </span>
                   </div>
-                  <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-brand-light-grey text-brand-black border border-gray-200">
+                  <span className="text-[10px] sm:text-xs font-mono font-semibold px-2 py-0.5 rounded bg-brand-light-grey text-brand-black border border-gray-200">
                     {Math.round(progress * 100)}% Assembled
                   </span>
                 </div>
 
                 {/* Stage Title */}
-                <h3 className="text-lg sm:text-xl font-heading font-bold text-brand-black leading-snug uppercase">
+                <h3 className="text-sm sm:text-lg lg:text-xl font-heading font-bold text-brand-black leading-snug uppercase">
                   {activeStage?.title || 'CONSTRUCTION PHASE'}
                 </h3>
 
                 {/* Stage Description */}
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                <p className="text-[11px] sm:text-xs lg:text-sm text-gray-600 leading-relaxed line-clamp-2 sm:line-clamp-none">
                   {activeStage?.description || ''}
                 </p>
 
                 {/* Engineering Spec Callout */}
                 {activeStage?.spec_label && (
-                  <div className="p-3 rounded-xl bg-[#F8FAFC] border border-gray-200/80">
-                    <div className="flex items-center gap-2 mb-1">
-                      <ShieldCheck className="w-3.5 h-3.5 text-brand-yellow shrink-0" />
-                      <span className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">
+                  <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-[#F8FAFC] border border-gray-200/80">
+                    <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                      <ShieldCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-yellow shrink-0" />
+                      <span className="text-[9px] sm:text-[10px] font-bold text-gray-700 uppercase tracking-wider">
                         {activeStage.spec_label}
                       </span>
                     </div>
-                    <p className="text-xs font-mono text-brand-black font-semibold pl-5">
+                    <p className="text-[11px] sm:text-xs font-mono text-brand-black font-semibold pl-4 sm:pl-5">
                       {activeStage.spec_value}
                     </p>
                   </div>
                 )}
 
                 {/* Integrated Scroll Navigation Cue in Card Footer */}
-                <div className="pt-2.5 border-t border-gray-100 flex items-center gap-2 text-[11px] text-gray-500 font-mono">
-                  <ChevronDown className="w-3.5 h-3.5 animate-bounce text-brand-yellow shrink-0" />
+                <div className="pt-1.5 sm:pt-2.5 border-t border-gray-100 flex items-center gap-2 text-[10px] sm:text-[11px] text-gray-500 font-mono">
+                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-bounce text-brand-yellow shrink-0" />
                   <span>Scroll down to build • Scroll up to reverse</span>
                 </div>
               </div>
             ) : (
               /* Stage 5: Final Commercial Silo Reveal Card */
-              <div className="relative bg-white/95 backdrop-blur-md rounded-2xl p-6 sm:p-7 border-2 border-brand-yellow shadow-2xl transition-all duration-300 space-y-4 group">
+              <div className="relative bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-3.5 sm:p-6 lg:p-7 border-2 border-brand-yellow shadow-xl lg:shadow-2xl transition-all duration-300 space-y-2 sm:space-y-4 group">
                 <CornerMarks color="border-brand-yellow/60 group-hover:border-brand-black transition-colors" />
 
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-brand-yellow text-brand-black text-[11px] font-bold uppercase tracking-wider">
+                  <span className="px-2 py-0.5 rounded-full bg-brand-yellow text-brand-black text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
                     Structure Complete
                   </span>
-                  <span className="text-xs font-mono text-gray-500">100% Commissioned</span>
+                  <span className="text-[11px] sm:text-xs font-mono text-gray-500">100% Commissioned</span>
                 </div>
 
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-heading font-black text-brand-black uppercase tracking-tight mb-2">
+                  <h3 className="text-sm sm:text-xl lg:text-2xl font-heading font-black text-brand-black uppercase tracking-tight mb-1 sm:mb-2">
                     {finalHeading}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  <p className="text-[11px] sm:text-xs lg:text-sm text-gray-600 leading-relaxed line-clamp-2 sm:line-clamp-none">
                     {finalSubheading}
                   </p>
                 </div>
 
-                {/* Vertical stacked CTAs preserving strict compact card width */}
-                <div className="flex flex-col gap-2.5 pt-1">
+                {/* Stacked / Row CTAs */}
+                <div className="flex flex-row sm:flex-col gap-2 pt-1">
                   <Link
                     to={ctaBtnLink}
-                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-yellow text-brand-black font-heading font-bold text-xs tracking-wider uppercase hover:bg-yellow-400 transition-all shadow-md hover:shadow-lg"
+                    className="flex-1 sm:w-full inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2.5 sm:py-3 rounded-lg sm:rounded-xl bg-brand-yellow text-brand-black font-heading font-bold text-xs tracking-wider uppercase hover:bg-yellow-400 transition-all shadow-md hover:shadow-lg"
                   >
-                    {ctaBtnText}
-                    <ArrowRight className="w-4 h-4" />
+                    <span>{ctaBtnText}</span>
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </Link>
                   <Link
                     to="/contact"
-                    className="w-full inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-brand-black text-white font-heading font-semibold text-xs tracking-wider uppercase hover:bg-neutral-800 transition-colors"
+                    className="flex-1 sm:w-full inline-flex items-center justify-center px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-brand-black text-white font-heading font-semibold text-xs tracking-wider uppercase hover:bg-neutral-800 transition-colors"
                   >
-                    Get Silo Quote
+                    Get Quote
                   </Link>
                 </div>
 
                 {/* Integrated Scroll Navigation Cue in Card Footer */}
-                <div className="pt-2.5 border-t border-gray-100 flex items-center gap-2 text-[11px] text-gray-500 font-mono">
-                  <ChevronDown className="w-3.5 h-3.5 animate-bounce text-brand-yellow shrink-0" />
+                <div className="pt-1.5 sm:pt-2.5 border-t border-gray-100 flex items-center gap-2 text-[10px] sm:text-[11px] text-gray-500 font-mono">
+                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-bounce text-brand-yellow shrink-0" />
                   <span>Scroll up to reverse assembly inspection</span>
                 </div>
               </div>
@@ -344,7 +344,7 @@ export const SiloConstructionSection: React.FC<SiloConstructionSectionProps> = (
         </div>
 
         {/* Bottom Interactive Engineering Progress Bar */}
-        <footer className="relative z-20 w-full px-6 sm:px-10 lg:px-14 xl:px-16 pb-4 pt-2 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent pointer-events-none">
+        <footer className="relative z-20 w-full px-4 sm:px-10 lg:px-14 xl:px-16 pb-2.5 sm:pb-4 pt-1 sm:pt-2 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/90 to-transparent pointer-events-none">
           <div className="w-full space-y-1.5 pointer-events-auto">
             {/* Fine Measurement Ticks */}
             <MeasurementRuler ticks={48} className="opacity-20" />

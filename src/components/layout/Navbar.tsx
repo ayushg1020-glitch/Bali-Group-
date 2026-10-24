@@ -119,24 +119,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenQuoteModal }) => {
         <div className="container-custom flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center group py-0.5" aria-label="Bali Group Home">
             <img 
-              src={companySettings.logo_url} 
-              alt={companySettings.name}
-              className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-102"
+              src="/images/logo-bali-group.png" 
+              alt="Bali Group Grain Silos & EPC"
+              className="h-11 sm:h-12 md:h-14 lg:h-[54px] w-auto object-contain transition-transform duration-200 group-hover:scale-102"
               onError={(e) => {
-                // Graceful fallback to crisp text brand
-                (e.target as HTMLElement).style.display = 'none';
+                (e.target as HTMLImageElement).src = companySettings.logo_url || '/images/logo.png';
               }}
             />
-            <div className="flex flex-col">
-              <span className="font-heading font-extrabold text-xl tracking-tight text-brand-black uppercase">
-                BALI <span className="text-brand-yellow">GROUP</span>
-              </span>
-              <span className="text-[10px] tracking-widest text-brand-text-grey uppercase font-medium -mt-1">
-                Grain Silos & EPC
-              </span>
-            </div>
           </Link>
 
           {/* Desktop Navigation */}
