@@ -301,19 +301,34 @@ export const AdminHomepageEditor: React.FC = () => {
               aspectRatioLabel="Landscape / Silo"
             />
 
-            <div>
-              <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black mb-1">
-                Background Dark Overlay Opacity: {hero.overlay_opacity}
-              </label>
+            <div className="bg-[#FAFBFD] p-3.5 border border-brand-border-grey space-y-2 rounded-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black">
+                    Background Dark Overlay Opacity
+                  </label>
+                  <p className="text-[11px] text-brand-text-grey">
+                    Adjust the contrast and darkening layer over the silo images.
+                  </p>
+                </div>
+                <span className="text-xs font-mono font-bold text-brand-black px-2.5 py-1 bg-yellow-100 border border-yellow-300 rounded-xs">
+                  {Math.round(((hero.overlay_opacity ?? 0.45)) * 100)}% ({hero.overlay_opacity ?? 0.45})
+                </span>
+              </div>
               <input
                 type="range"
-                min="0.2"
-                max="0.8"
+                min="0.0"
+                max="0.9"
                 step="0.05"
-                value={hero.overlay_opacity}
+                value={hero.overlay_opacity ?? 0.45}
                 onChange={(e) => handleHeroChange('overlay_opacity', parseFloat(e.target.value))}
-                className="w-full accent-brand-yellow"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-yellow"
               />
+              <div className="flex justify-between text-[10px] text-gray-500 font-mono">
+                <span>0% (Bright / Natural)</span>
+                <span>45% (Standard Industrial)</span>
+                <span>90% (Deep Contrast)</span>
+              </div>
             </div>
           </div>
         )}

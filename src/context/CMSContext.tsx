@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   CompanySettings, 
   HomePageContent, 
@@ -384,6 +385,7 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const saveDraft = () => {
+    setPublishedData(draftData);
     setHasUnsavedChanges(false);
     logActivity('update', 'Draft Content', 'Saved draft modifications.');
   };
@@ -543,9 +545,14 @@ export const CMSProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     document.body.removeChild(link);
   };
 
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   // The active state that consumers see:
-  // If preview mode is ON, return draftData. Otherwise return publishedData.
-  const activeData = isPreviewMode ? draftData : publishedData;
+  // When on admin routes or in preview mode, always expose draftData so edits, sliders,
+  // and image pickers update immediately in real-time.
+  // On the public website, show draftData if preview mode is ON, otherwise publishedData.
+  const activeData = (isAdminRoute || isPreviewMode) ? draftData : publishedData;
 
   return (
     <CMSContext.Provider

@@ -81,8 +81,8 @@ const PublicLayout: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <CMSProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <CMSProvider>
         <ScrollToTop />
         <Routes>
           {/* Admin Authentication */}
@@ -107,8 +107,8 @@ export const App: React.FC = () => {
           {/* Public Corporate Website Catch-all */}
           <Route path="/*" element={<PublicLayout />} />
         </Routes>
-      </BrowserRouter>
-    </CMSProvider>
+      </CMSProvider>
+    </BrowserRouter>
   );
 };
 

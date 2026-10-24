@@ -52,7 +52,10 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
               />
               {/* Subtle ambient gradient overlay for depth */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/10 to-transparent" />
-              <div className="absolute inset-0 bg-brand-black/5" />
+              <div 
+                className="absolute inset-0 bg-black transition-opacity duration-200 pointer-events-none"
+                style={{ opacity: hero.overlay_opacity ?? 0.45 }} 
+              />
             </div>
 
             {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (\) */}
@@ -93,7 +96,10 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
               />
               {/* Subtle ambient gradient overlay for depth */}
               <div className="absolute inset-0 bg-gradient-to-l from-black/25 via-black/10 to-transparent" />
-              <div className="absolute inset-0 bg-brand-black/5" />
+              <div 
+                className="absolute inset-0 bg-black transition-opacity duration-200 pointer-events-none"
+                style={{ opacity: hero.overlay_opacity ?? 0.45 }}
+              />
             </div>
 
             {/* Crisp Architectural Brand-Yellow Accent Seam along the diagonal (/) */}
@@ -131,6 +137,10 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-white" />
+          <div 
+            className="absolute inset-0 bg-black transition-opacity duration-200 pointer-events-none"
+            style={{ opacity: hero.overlay_opacity ?? 0.45 }}
+          />
           <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-yellow" />
         </div>
       )}
