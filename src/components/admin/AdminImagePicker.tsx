@@ -18,7 +18,9 @@ export interface AdminImagePickerProps {
   value: string;
   onChange: (newUrl: string) => void;
   description?: string;
+  helperText?: string;
   defaultFallback?: string;
+  defaultImage?: string;
   category?: 'all' | 'silo' | 'project' | 'facility' | 'general';
   aspectRatioLabel?: string;
   allowEmpty?: boolean;
@@ -29,11 +31,15 @@ export const AdminImagePicker: React.FC<AdminImagePickerProps> = ({
   value,
   onChange,
   description,
+  helperText,
   defaultFallback,
+  defaultImage,
   category = 'all',
   aspectRatioLabel,
   allowEmpty = true,
 }) => {
+  const effectiveFallback = defaultFallback || defaultImage;
+  const effectiveDescription = description || helperText;
   const { mediaAssets, uploadMediaAsset } = useCMS();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -104,9 +110,9 @@ export const AdminImagePicker: React.FC<AdminImagePickerProps> = ({
 
   // 3. Reset to default fallback
   const handleResetToDefault = () => {
-    if (defaultFallback) {
-      onChange(defaultFallback);
-      setCustomUrl(defaultFallback);
+    if (effectiveFallback) {
+      onChange(effectiveFallback);
+      setCustomUrl(effectiveFallback);
       showTemporaryNotice('Reset to default image.');
     }
   };
@@ -131,7 +137,7 @@ export const AdminImagePicker: React.FC<AdminImagePickerProps> = ({
     });
 
   const hasImage = Boolean(value && value.trim() !== '');
-  const isDefault = Boolean(defaultFallback && value === defaultFallback);
+  const isDefault = Boolean(effectiveFallback && value === effectiveFallback);
 
   return (
     <div className="space-y-2 p-3.5 bg-[#FAFBFD] border border-brand-border-grey rounded-sm">
@@ -141,8 +147,8 @@ export const AdminImagePicker: React.FC<AdminImagePickerProps> = ({
           <label className="block text-xs font-heading font-bold uppercase tracking-wider text-brand-black">
             {label}
           </label>
-          {description && (
-            <p className="text-[11px] text-brand-text-grey mt-0.5">{description}</p>
+          {effectiveDescription && (
+            <p className="text-[11px] text-brand-text-grey mt-0.5">{effectiveDescription}</p>
           )}
         </div>
 
@@ -164,7 +170,7 @@ export const AdminImagePicker: React.FC<AdminImagePickerProps> = ({
                 alt={label}
                 className="w-full h-full object-cover transition-transform group-hover:scale-105"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = defaultFallback || '/images/silos/flat-bottom1.jpg';
+                  (e.target as HTMLImageElement).src = effectiveFallback || '/images/silos/flat-bottom1.jpg';
                 }}
               />
               <a

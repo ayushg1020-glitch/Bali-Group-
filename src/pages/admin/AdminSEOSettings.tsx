@@ -134,8 +134,8 @@ export const AdminSEOSettings: React.FC = () => {
                 label="OpenGraph Share Image (Social Preview Card)"
                 value={seoSettings.og_image}
                 onChange={(newUrl) => updateSEODraft({ og_image: newUrl })}
-                defaultImage="https://images.unsplash.com/photo-1590496793929-36417d3117de?auto=format&fit=crop&w=1200&q=80"
-                helperText="Displayed when your website is shared on LinkedIn, WhatsApp, Facebook, and Twitter/X (Recommended: 1200×630px)."
+                defaultFallback="https://images.unsplash.com/photo-1590496793929-36417d3117de?auto=format&fit=crop&w=1200&q=80"
+                description="Displayed when your website is shared on LinkedIn, WhatsApp, Facebook, and Twitter/X (Recommended: 1200×630px)."
               />
 
             <div>
